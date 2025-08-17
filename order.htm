@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <button class="burger" aria-label="Открыть меню" aria-expanded="false">
+        ☰
+      </button>
+      <a class="brand" href="./index.html">Velizade<span>Academy</span></a>
+      <!-- <button class="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">☰</button> -->
+      <nav id="nav" class="nav">
+        <a href="./about.html">О нас</a>
+        <a href="./classes.html">Классы</a>
+        <a href="./instructors.html">Педагоги</a>
+        <a href="./index.html">Галерея</a>
+        <a href="./order.htm" class="btn btn-primary">Записаться</a>
+      </nav>
+    </header>
+
+    <!-- Overlay for drawer -->
+    <div id="drawerOverlay" class="drawer-overlay" hidden></div>
+
+    <!-- Right-side Drawer -->
+    <aside
+      id="drawer"
+      class="drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="drawerTitle"
+      tabindex="-1"
+      hidden
+    >
+      <div class="drawer__header">
+        <h2 id="drawerTitle">Меню</h2>
+        <button type="button" class="drawer__close" aria-label="Закрыть меню">
+          ✕
+        </button>
+      </div>
+      <nav class="drawer__body">
+        <a href="./about.html">О нас</a>
+        <a href="./classes.html">Классы</a>
+        <a href="./instructors.html">Педагоги</a>
+        <a href="./index.html">Галерея</a>
+        <a href="./order.htm" class="btn btn-primary">Записаться</a>
+      </nav>
+    </aside>
+    <main>
+      <section id="contact" class="contact container">
+        <h2>Записаться</h2>
+        <form class="contact__form" novalidate>
+          <label
+            >Имя
+            <input type="text" name="name" placeholder="Ваше имя" required />
+          </label>
+          <label
+            >Телефон
+            <input
+              type="tel"
+              name="phone"
+              placeholder="+994 xx xxx xx xx"
+              required
+            />
+          </label>
+          <label
+            >Направление
+            <select name="class">
+              <option>Contemporary</option>
+              <option>Ballet</option>
+              <option>Jazz Funk</option>
+            </select>
+          </label>
+          <button type="submit" class="btn btn-primary">Отправить</button>
+          <p class="form-msg" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <p>© 2025 Velizade Academy.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

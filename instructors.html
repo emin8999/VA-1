@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="./assets/css/instructors.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <button class="burger" aria-label="Открыть меню" aria-expanded="false">
+        ☰
+      </button>
+      <a class="brand" href="./index.html">Velizade<span>Academy</span></a>
+      <!-- <button class="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">☰</button> -->
+      <nav id="nav" class="nav">
+        <a href="./about.html">О нас</a>
+        <a href="./classes.html">Классы</a>
+        <a href="./instructors.html">Педагоги</a>
+        <a href="./index.html">Галерея</a>
+        <a href="./order.htm" class="btn btn-primary">Записаться</a>
+      </nav>
+    </header>
+
+    <!-- Overlay for drawer -->
+    <div id="drawerOverlay" class="drawer-overlay" hidden></div>
+
+    <!-- Right-side Drawer -->
+    <aside
+      id="drawer"
+      class="drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="drawerTitle"
+      tabindex="-1"
+      hidden
+    >
+      <div class="drawer__header">
+        <h2 id="drawerTitle">Меню</h2>
+        <button type="button" class="drawer__close" aria-label="Закрыть меню">
+          ✕
+        </button>
+      </div>
+      <nav class="drawer__body">
+        <a href="./about.html">О нас</a>
+        <a href="./classes.html">Классы</a>
+        <a href="./instructors.html">Педагоги</a>
+        <a href="./index.html">Галерея</a>
+        <a href="./order.htm" class="btn btn-primary">Записаться</a>
+      </nav>
+    </aside>
+    <section class="hero">
+      <div class="container hero__wrap">
+        <h1>Наши педагоги</h1>
+        <p>
+          Команда профессионалов: балет, народные танцы, R&B/хип-хоп, моделинг,
+          вокал, гимнастика, contemporary и другие направления.
+        </p>
+
+        <div class="filters">
+          <label class="field">
+            <span>Поиск</span>
+            <input type="search" id="q" placeholder="Имя или направление…" />
+          </label>
+          <label class="field">
+            <span>Направление</span>
+            <select id="discipline">
+              <option value="all">Все</option>
+              <option value="ballet">Балет</option>
+              <option value="folk">Народные</option>
+              <option value="rnb">R&B / Хип-хоп</option>
+              <option value="modeling">Моделинг</option>
+              <option value="vocal">Вокал</option>
+              <option value="gym">Гимнастика</option>
+              <option value="contemporary">Contemporary</option>
+              <option value="jazzfunk">Jazz Funk</option>
+              <option value="latin">Latino</option>
+              <option value="tap">Tap / Степ</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Уровень</span>
+            <select id="level">
+              <option value="all">Любой</option>
+              <option value="beginner">Начинающий</option>
+              <option value="intermediate">Средний</option>
+              <option value="advanced">Продвинутый</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <!-- <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,64L60,53.3C120,43,240,21,360,32C480,43,600,85,720,106.7C840,128,960,128,1080,122.7C1200,117,1320,107,1380,101.3L1440,96L1440,0L0,0Z"></path>
+    </svg> -->
+    </section>
+
+    <main class="container">
+      <div id="grid" class="grid">
+        <!-- Карточки педагогов -->
+        <!-- Шаблон: см. data-* атрибуты, JS читает их в модалку -->
+        <article
+          class="card"
+          data-name="Айлин Кара"
+          data-tags="contemporary stretch"
+          data-discipline="contemporary"
+          data-level="intermediate"
+          data-img="assets/img/6.jpg"
+          data-bio="Contemporary, растяжка, импровизация и композиция. Опыт сцены и постановок."
+          data-schedule="Пн/Ср · 19:00"
+          data-cta="index.html#contact"
+        >
+          <div class="card__media" style="--img: url('assets/img/6.jpg')"></div>
+          <div class="card__body">
+            <h3>Айлин Кара</h3>
+            <div class="badges">
+              <span class="badge">Contemporary</span>
+              <span class="badge badge--lvl">Средний</span>
+            </div>
+            <p>Импровизация, работа с центром и партером.</p>
+            <button class="btn btn-outline" data-open>Подробнее</button>
+          </div>
+        </article>
+
+        <article
+          class="card"
+          data-name="Турал М."
+          data-tags="ballet классика jazzfunk"
+          data-discipline="ballet"
+          data-level="beginner"
+          data-img="assets/img/5.jpg"
+          data-bio="Классический балет с нуля, экзерсис у станка, постановка корпуса. Параллельно ведёт Jazz Funk."
+          data-schedule="Вт/Чт · 18:30"
+          data-cta="index.html#contact"
+        >
+          <div class="card__media" style="--img: url('assets/img/5.jpg')"></div>
+          <div class="card__body">
+            <h3>Турал М.</h3>
+            <div class="badges">
+              <span class="badge">Балет</span>
+              <span class="badge badge--lvl">Начинающий</span>
+            </div>
+            <p>База балета и пластика движения.</p>
+            <button class="btn btn-outline" data-open>Подробнее</button>
+          </div>
+        </article>
+
+        <article
+          class="card"
+          data-name="Камиль С."
+          data-tags="rnb hiphop gym"
+          data-discipline="rnb"
+          data-level="beginner"
+          data-img="assets/img/3.jpg"
+          data-bio="R&B/Хип-хоп — грув и музыкальность. Ведёт стретчинг/гимнастику для танцоров."
+          data-schedule="Сб · 16:00"
+          data-cta="index.html#contact"
+        >
+          <div class="card__media" style="--img: url('assets/img/3.jpg')"></div>
+          <div class="card__body">
+            <h3>Камиль С.</h3>
+            <div class="badges">
+              <span class="badge">R&B / Хип-хоп</span>
+              <span class="badge badge--lvl">Начинающий</span>
+            </div>
+            <p>База грува, связки и freestyle.</p>
+            <button class="btn btn-outline" data-open>Подробнее</button>
+          </div>
+        </article>
+
+        <article
+          class="card"
+          data-name="Лейла Р."
+          data-tags="modeling runway posing"
+          data-discipline="modeling"
+          data-level="intermediate"
+          data-img="assets/img/4.jpg"
+          data-bio="Моделинг: осанка, походка runway, позирование, портфолио-съёмки."
+          data-schedule="Вт · 20:00"
+          data-cta="index.html#contact"
+        >
+          <div class="card__media" style="--img: url('assets/img/4.jpg')"></div>
+          <div class="card__body">
+            <h3>Лейла Р.</h3>
+            <div class="badges">
+              <span class="badge">Моделинг</span>
+              <span class="badge badge--lvl">Средний</span>
+            </div>
+            <p>Походка, позы, кадр и пластика.</p>
+            <button class="btn btn-outline" data-open>Подробнее</button>
+          </div>
+        </article>
+
+        <article
+          class="card"
+          data-name="Эмиль В."
+          data-tags="vocal voice breathing"
+          data-discipline="vocal"
+          data-level="beginner"
+          data-img="assets/img/1.jpg"
+          data-bio="Вокал: дыхание, артикуляция, сценическая подача. Индивидуальный план."
+          data-schedule="Ср · 19:30"
+          data-cta="index.html#contact"
+        >
+          <div class="card__media" style="--img: url('assets/img/1.jpg')"></div>
+          <div class="card__body">
+            <h3>Эмиль В.</h3>
+            <div class="badges">
+              <span class="badge">Вокал</span>
+              <span class="badge badge--lvl">Начинающий</span>
+            </div>
+            <p>Постановка голоса и дикции.</p>
+            <button class="btn btn-outline" data-open>Подробнее</button>
+          </div>
+        </article>
+
+        <article
+          class="card"
+          data-name="Лео А."
+          data-tags="latin salsa bachata"
+          data-discipline="latin"
+          data-level="intermediate"
+          data-img="assets/img/4.jpg"
+          data-bio="Latino Mix: Salsa / Bachata. Ритм, динамика, ведение/следование."
+          data-schedule="Сб · 18:00"
+          data-cta="index.html#contact"
+        >
+          <div class="card__media" style="--img: url('assets/img/4.jpg')"></div>
+          <div class="card__body">
+            <h3>Лео А.</h3>
+            <div class="badges">
+              <span class="badge">Latino</span>
+              <span class="badge badge--lvl">Средний</span>
+            </div>
+            <p>Латиноамериканские основы.</p>
+            <button class="btn btn-outline" data-open>Подробнее</button>
+          </div>
+        </article>
+
+        <article
+          class="card"
+          data-name="Алекс Т."
+          data-tags="tap степ rhythm"
+          data-discipline="tap"
+          data-level="beginner"
+          data-img="assets/img/1.jpg"
+          data-bio="Tap / Степ: ритмика и координация, музыкальность, базовые patterns."
+          data-schedule="Пн · 20:00"
+          data-cta="index.html#contact"
+        >
+          <div class="card__media" style="--img: url('assets/img/1.jpg')"></div>
+          <div class="card__body">
+            <h3>Алекс Т.</h3>
+            <div class="badges">
+              <span class="badge">Tap / Степ</span>
+              <span class="badge badge--lvl">Начинающий</span>
+            </div>
+            <p>Ритм через движение и звук.</p>
+            <button class="btn btn-outline" data-open>Подробнее</button>
+          </div>
+        </article>
+
+        <article
+          class="card"
+          data-name="Нармин С."
+          data-tags="folk этно"
+          data-discipline="folk"
+          data-level="intermediate"
+          data-img="assets/img/2.jpg"
+          data-bio="Народные танцы: этнические рисунки, характер и техника."
+          data-schedule="Чт · 19:30"
+          data-cta="index.html#contact"
+        >
+          <div class="card__media" style="--img: url('assets/img/2.jpg')"></div>
+          <div class="card__body">
+            <h3>Нармин С.</h3>
+            <div class="badges">
+              <span class="badge">Народные</span>
+              <span class="badge badge--lvl">Средний</span>
+            </div>
+            <p>Характер исполнения и ритмика.</p>
+            <button class="btn btn-outline" data-open>Подробнее</button>
+          </div>
+        </article>
+
+        <article
+          class="card"
+          data-name="Дана Р."
+          data-tags="gym stretch flexibility"
+          data-discipline="gym"
+          data-level="beginner"
+          data-img="assets/img/2.jpg"
+          data-bio="Гимнастика и стретчинг: гибкость, мобильность, работа с дыханием."
+          data-schedule="Вс · 12:00"
+          data-cta="index.html#contact"
+        >
+          <div class="card__media" style="--img: url('assets/img/2.jpg')"></div>
+          <div class="card__body">
+            <h3>Дана Р.</h3>
+            <div class="badges">
+              <span class="badge">Гимнастика</span>
+              <span class="badge badge--lvl">Начинающий</span>
+            </div>
+            <p>Безопасная растяжка и тонус.</p>
+            <button class="btn btn-outline" data-open>Подробнее</button>
+          </div>
+        </article>
+
+        <article
+          class="card"
+          data-name="Сара К."
+          data-tags="jazzfunk стиль клип"
+          data-discipline="jazzfunk"
+          data-level="advanced"
+          data-img="assets/img/3.jpg"
+          data-bio="Jazz Funk: экспрессия, съёмка клип-рутин, сценическая подача."
+          data-schedule="Пт · 20:30"
+          data-cta="index.html#contact"
+        >
+          <div class="card__media" style="--img: url('assets/img/3.jpg')"></div>
+          <div class="card__body">
+            <h3>Сара К.</h3>
+            <div class="badges">
+              <span class="badge">Jazz Funk</span>
+              <span class="badge badge--lvl">Продвинутый</span>
+            </div>
+            <p>Стиль, кадр и драйв.</p>
+            <button class="btn btn-outline" data-open>Подробнее</button>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="modalOverlay" class="modal-overlay" hidden></div>
+    <section
+      id="modal"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+      hidden
+      tabindex="-1"
+    >
+      <button class="modal__close" aria-label="Закрыть">✕</button>
+      <div class="modal__media"><img id="modalImg" alt="" /></div>
+      <div class="modal__body">
+        <h2 id="modalTitle"></h2>
+        <p id="modalBio" class="muted"></p>
+        <div class="modal__meta">
+          <span id="modalDiscipline" class="badge"></span>
+          <span id="modalLevel" class="badge badge--lvl"></span>
+          <span id="modalSchedule" class="badge badge--light"></span>
+        </div>
+        <a id="modalCta" class="btn btn-primary" href="#" target="_self"
+          >Записаться</a
+        >
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>© 2025 Dance Academy. Вдохновляем на движение.</p>
+    </footer>
+
+    <script src="instructors.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

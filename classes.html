@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="./assets/css/classes.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <button class="burger" aria-label="Открыть меню" aria-expanded="false">
+        ☰
+      </button>
+      <a class="brand" href="./index.html">Velizade<span>Academy</span></a>
+      <!-- <button class="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">☰</button> -->
+      <nav id="nav" class="nav">
+        <a href="./about.html">О нас</a>
+        <a href="./classes.html">Классы</a>
+        <a href="./instructors.html">Педагоги</a>
+        <a href="./index.html">Галерея</a>
+        <a href="./order.htm" class="btn btn-primary">Записаться</a>
+      </nav>
+    </header>
+
+    <!-- Overlay for drawer -->
+    <div id="drawerOverlay" class="drawer-overlay" hidden></div>
+
+    <!-- Right-side Drawer -->
+    <aside
+      id="drawer"
+      class="drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="drawerTitle"
+      tabindex="-1"
+      hidden
+    >
+      <div class="drawer__header">
+        <h2 id="drawerTitle">Меню</h2>
+        <button type="button" class="drawer__close" aria-label="Закрыть меню">
+          ✕
+        </button>
+      </div>
+      <nav class="drawer__body">
+        <a href="./about.html">О нас</a>
+        <a href="./classes.html">Классы</a>
+        <a href="./instructors.html">Педагоги</a>
+        <a href="./index.html">Галерея</a>
+        <a href="./order.htm" class="btn btn-primary">Записаться</a>
+      </nav>
+    </aside>
+
+    <section class="hero">
+      <div class="container hero__wrap">
+        <h1>Классы</h1>
+        <p>
+          Выбери своё направление: балет, народные танцы, R&B/хип-хоп, моделинг,
+          вокал, гимнастика и другие — для любого уровня.
+        </p>
+        <div class="filters">
+          <label class="field">
+            <span>Поиск</span>
+            <input type="search" id="classSearch" placeholder="Найти класс…" />
+          </label>
+          <label class="field">
+            <span>Тип</span>
+            <select id="typeFilter">
+              <option value="all">Все</option>
+              <option value="dance">Танцы</option>
+              <option value="modeling">Моделинг</option>
+              <option value="vocal">Вокал</option>
+              <option value="fitness">Фитнес/Гимнастика</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Уровень</span>
+            <select id="levelFilter">
+              <option value="all">Любой</option>
+              <option value="beginner">Начинающий</option>
+              <option value="intermediate">Средний</option>
+              <option value="advanced">Продвинутый</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <!-- <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path
+          d="M0,64L60,53.3C120,43,240,21,360,32C480,43,600,85,720,106.7C840,128,960,128,1080,122.7C1200,117,1320,107,1380,101.3L1440,96L1440,0L0,0Z"
+        ></path>
+      </svg> -->
+    </section>
+
+    <main class="container">
+      <div class="grid" id="classesGrid">
+        <!-- 1 -->
+        <article
+          class="card"
+          data-tags="dance ballet классика"
+          data-type="dance"
+          data-level="beginner"
+        >
+          <div class="card__media" style="--img: url('assets/img/5.jpg')"></div>
+          <div class="card__body">
+            <h3>Балет (Ballet Basics)</h3>
+            <div class="badges">
+              <span class="badge">Танцы</span>
+              <span class="badge badge--lvl">Начинающий</span>
+            </div>
+            <p>
+              Экзерсис у станка, постановка корпуса, координация и пластика.
+            </p>
+            <div class="meta">
+              <span>Пн/Ср · 19:00</span>
+              <span>Педагог: Турал</span>
+            </div>
+            <a href="#signup" class="btn btn-outline">Записаться</a>
+          </div>
+        </article>
+
+        <!-- 2 -->
+        <article
+          class="card"
+          data-tags="dance folk народные"
+          data-type="dance"
+          data-level="intermediate"
+        >
+          <div class="card__media" style="--img: url('assets/img/2.jpg')"></div>
+          <div class="card__body">
+            <h3>Народные танцы</h3>
+            <div class="badges">
+              <span class="badge">Танцы</span>
+              <span class="badge badge--lvl">Средний</span>
+            </div>
+            <p>Этнические рисунки, ритмика и характер исполнения.</p>
+            <div class="meta">
+              <span>Вт/Чт · 18:30</span>
+              <span>Педагог: Айлин</span>
+            </div>
+            <a href="#signup" class="btn btn-outline">Записаться</a>
+          </div>
+        </article>
+
+        <!-- 3 -->
+        <article
+          class="card"
+          data-tags="dance rnb hiphop хип-хоп"
+          data-type="dance"
+          data-level="beginner"
+        >
+          <div class="card__media" style="--img: url('assets/img/3.jpg')"></div>
+          <div class="card__body">
+            <h3>R&B / Хип-хоп</h3>
+            <div class="badges">
+              <span class="badge">Танцы</span>
+              <span class="badge badge--lvl">Начинающий</span>
+            </div>
+            <p>Грув, музыкальность, базовые связки и freestyle.</p>
+            <div class="meta">
+              <span>Сб · 16:00</span>
+              <span>Педагог: Камиль</span>
+            </div>
+            <a href="#signup" class="btn btn-outline">Записаться</a>
+          </div>
+        </article>
+
+        <!-- 4 -->
+        <article
+          class="card"
+          data-tags="modeling подиум позирование походка"
+          data-type="modeling"
+          data-level="intermediate"
+        >
+          <div class="card__media" style="--img: url('assets/img/4.jpg')"></div>
+          <div class="card__body">
+            <h3>Моделинг</h3>
+            <div class="badges">
+              <span class="badge">Моделинг</span>
+              <span class="badge badge--lvl">Средний</span>
+            </div>
+            <p>Осанка, походка runway, позирование, кадр и портфолио-сессии.</p>
+            <div class="meta">
+              <span>Вт · 20:00</span>
+              <span>Педагог: Лейла</span>
+            </div>
+            <a href="#signup" class="btn btn-outline">Записаться</a>
+          </div>
+        </article>
+
+        <!-- 5 -->
+        <article
+          class="card"
+          data-tags="vocal вокал голос постановка дыхание"
+          data-type="vocal"
+          data-level="beginner"
+        >
+          <div class="card__media" style="--img: url('assets/img/1.jpg')"></div>
+          <div class="card__body">
+            <h3>Вокал</h3>
+            <div class="badges">
+              <span class="badge">Вокал</span>
+              <span class="badge badge--lvl">Начинающий</span>
+            </div>
+            <p>Постановка дыхания, артикуляция, сценическая подача.</p>
+            <div class="meta">
+              <span>Ср · 19:30</span>
+              <span>Педагог: Эмиль</span>
+            </div>
+            <a href="#signup" class="btn btn-outline">Записаться</a>
+          </div>
+        </article>
+
+        <!-- 6 -->
+        <article
+          class="card"
+          data-tags="dance contemporary контемпорари пластика импровизация"
+          data-type="dance"
+          data-level="intermediate"
+        >
+          <div class="card__media" style="--img: url('assets/img/6.jpg')"></div>
+          <div class="card__body">
+            <h3>Contemporary</h3>
+            <div class="badges">
+              <span class="badge">Танцы</span>
+              <span class="badge badge--lvl">Средний</span>
+            </div>
+            <p>Работа с центром, партер, импровизация и композиция.</p>
+            <div class="meta">
+              <span>Пт · 19:00</span>
+              <span>Педагог: Айлин</span>
+            </div>
+            <a href="#signup" class="btn btn-outline">Записаться</a>
+          </div>
+        </article>
+
+        <!-- 7 -->
+        <article
+          class="card"
+          data-tags="dance jazz funk джаз-фанк стиль клип"
+          data-type="dance"
+          data-level="advanced"
+        >
+          <div class="card__media" style="--img: url('assets/img/3.jpg')"></div>
+          <div class="card__body">
+            <h3>Jazz Funk</h3>
+            <div class="badges">
+              <span class="badge">Танцы</span>
+              <span class="badge badge--lvl">Продвинутый</span>
+            </div>
+            <p>Экспрессия, работа на камеру, связки в клиповом стиле.</p>
+            <div class="meta">
+              <span>Чт · 20:30</span>
+              <span>Педагог: Турал</span>
+            </div>
+            <a href="#signup" class="btn btn-outline">Записаться</a>
+          </div>
+        </article>
+
+        <!-- 8 -->
+        <article
+          class="card"
+          data-tags="fitness gymnastics гимнастика стретчинг растяжка"
+          data-type="fitness"
+          data-level="beginner"
+        >
+          <div class="card__media" style="--img: url('assets/img/2.jpg')"></div>
+          <div class="card__body">
+            <h3>Гимнастика / Стретчинг</h3>
+            <div class="badges">
+              <span class="badge">Фитнес</span>
+              <span class="badge badge--lvl">Начинающий</span>
+            </div>
+            <p>Гибкость, мобильность суставов, безопасная растяжка.</p>
+            <div class="meta">
+              <span>Вс · 12:00</span>
+              <span>Педагог: Камиль</span>
+            </div>
+            <a href="#signup" class="btn btn-outline">Записаться</a>
+          </div>
+        </article>
+
+        <!-- 9 -->
+        <article
+          class="card"
+          data-tags="dance latino латина bachata salsa"
+          data-type="dance"
+          data-level="intermediate"
+        >
+          <div class="card__media" style="--img: url('assets/img/4.jpg')"></div>
+          <div class="card__body">
+            <h3>Latino Mix</h3>
+            <div class="badges">
+              <span class="badge">Танцы</span>
+              <span class="badge badge--lvl">Средний</span>
+            </div>
+            <p>Bachata / Salsa основы: ритм, ведение/следование, динамика.</p>
+            <div class="meta">
+              <span>Сб · 18:00</span>
+              <span>Педагог: Лео</span>
+            </div>
+            <a href="#signup" class="btn btn-outline">Записаться</a>
+          </div>
+        </article>
+
+        <!-- 10 -->
+        <article
+          class="card"
+          data-tags="dance tap степ ритм"
+          data-type="dance"
+          data-level="beginner"
+        >
+          <div class="card__media" style="--img: url('assets/img/1.jpg')"></div>
+          <div class="card__body">
+            <h3>Tap / Степ</h3>
+            <div class="badges">
+              <span class="badge">Танцы</span>
+              <span class="badge badge--lvl">Начинающий</span>
+            </div>
+            <p>Ритмы, координация и музыкальность с характерным звучанием.</p>
+            <div class="meta">
+              <span>Пн · 20:00</span>
+              <span>Педагог: Алекс</span>
+            </div>
+            <a href="#signup" class="btn btn-outline">Записаться</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <p>© 2025 Dance Academy. Выбирай движение.</p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

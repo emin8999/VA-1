@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Velizade Academy — Cream & Peach</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <button class="burger" aria-label="Открыть меню" aria-expanded="false">
+        ☰
+      </button>
+      <a class="brand" href="./index.html">Velizade<span>Academy</span></a>
+      <!-- <button class="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">☰</button> -->
+      <nav id="nav" class="nav">
+        <a href="./about.html">О нас</a>
+        <a href="./classes.html">Классы</a>
+        <a href="./instructors.html">Педагоги</a>
+        <a href="./index.html">Галерея</a>
+        <a href="./order.htm" class="btn btn-primary">Записаться</a>
+      </nav>
+    </header>
+
+    <!-- Overlay for drawer -->
+    <div id="drawerOverlay" class="drawer-overlay" hidden></div>
+
+    <!-- Right-side Drawer -->
+    <aside
+      id="drawer"
+      class="drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="drawerTitle"
+      tabindex="-1"
+      hidden
+    >
+      <div class="drawer__header">
+        <h2 id="drawerTitle">Меню</h2>
+        <button type="button" class="drawer__close" aria-label="Закрыть меню">
+          ✕
+        </button>
+      </div>
+      <nav class="drawer__body">
+        <a href="./about.html">О нас</a>
+        <a href="./classes.html">Классы</a>
+        <a href="./instructors.html">Педагоги</a>
+        <a href="./index.html">Галерея</a>
+        <a href="./order.htm" class="btn btn-primary">Записаться</a>
+      </nav>
+    </aside>
+
+    <main id="home">
+      <section class="hero">
+        <div class="hero__content">
+          <h1>Танец — это язык души</h1>
+          <p>
+            Академия современного танца в кремово‑персиковой эстетике. Открой
+            своё движение.
+          </p>
+          <div class="hero__cta">
+            <a href="./classes.html" class="btn btn-primary">Выбрать класс</a>
+            <!-- <a href="#contact" class="btn btn-outline">Бесплатный пробный</a> -->
+          </div>
+        </div>
+        <div class="hero__image">
+          <img src="assets/img/1.jpg" alt="Dance Academy" />
+        </div>
+        <!-- <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none">
+          <path
+            d="M0,64L60,53.3C120,43,240,21,360,32C480,43,600,85,720,106.7C840,128,960,128,1080,122.7C1200,117,1320,107,1380,101.3L1440,96L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
+          ></path>
+        </svg> -->
+      </section>
+
+      <section id="gallery" class="gallery container">
+        <h2>Галерея</h2>
+        <div class="masonry">
+          <img src="assets/img/1.jpg" alt="g1" />
+          <img src="assets/img/2.jpg" alt="g2" />
+          <img src="assets/img/3.jpg" alt="g3" />
+          <img src="assets/img/4.jpg" alt="g4" />
+          <img src="assets/img/5.jpg" alt="g5" />
+          <img src="assets/img/6.jpg" alt="g6" />
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© 2025 Velizade Academy.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

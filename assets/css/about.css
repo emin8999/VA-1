@@ -1,0 +1,361 @@
+/* === Theme & Base === */
+:root {
+  --cream: #fff7ef;
+  --peach: #fad9c1;
+  --peach-2: #ffcdb2;
+  --coral: #ff8c7a;
+  --brown: #3b2d2a;
+  --ink: #2b2b2b;
+  --muted: #6b6b6b;
+
+  --container: 1200px;
+  --radius: 16px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.6;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Playfair Display", Georgia, serif;
+  color: var(--brown);
+  line-height: 1.2;
+  margin: 0 0 0.6rem;
+}
+h1 {
+  font-size: clamp(2rem, 4.5vw, 3rem);
+}
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+h3 {
+  font-size: clamp(1.2rem, 2.4vw, 1.4rem);
+}
+h4 {
+  font-size: 1.05rem;
+}
+
+.container {
+  width: min(92%, var(--container));
+  margin: 0 auto;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--peach), var(--coral));
+  color: #2b1d1a;
+  box-shadow: var(--shadow);
+}
+
+/* === Header === */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 0;
+}
+.brand {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--brown);
+  text-decoration: none;
+}
+.brand span {
+  color: var(--coral);
+}
+.nav {
+  display: flex;
+  gap: 1rem;
+}
+.nav a {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 600;
+}
+.nav .btn {
+  margin-left: 0.5rem;
+}
+
+/* === Hero === */
+.hero {
+  position: relative;
+  background: linear-gradient(180deg, var(--peach) 0%, var(--cream) 60%);
+  padding: 2rem 0 0;
+}
+.hero__grid {
+  display: grid;
+  gap: 1.2rem;
+  align-items: center;
+  grid-template-columns: 1fr;
+}
+.hero__media img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  object-fit: cover;
+  aspect-ratio: 4/3;
+}
+.hero__tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.hero__tags span {
+  background: #fff;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid #f0e4db;
+}
+.wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 120px;
+  fill: var(--cream);
+}
+
+/* === Mission === */
+.mission {
+  display: grid;
+  gap: 1rem;
+  align-items: center;
+  padding: clamp(1.5rem, 4vw, 3rem) 0;
+}
+.mission__img img {
+  width: 100%;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.bullets {
+  margin: 0.6rem 0 0;
+  padding-left: 1.2rem;
+  color: var(--muted);
+}
+.bullets li {
+  margin: 0.25rem 0;
+}
+
+/* === Disciplines === */
+.disciplines {
+  padding: clamp(1.5rem, 4vw, 3rem) 0;
+}
+.disciplines .grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+.card {
+  background: #fff;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+.card__body {
+  padding: 0.9rem 1rem;
+}
+
+/* === Stats === */
+.stats {
+  background: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.stats__grid {
+  padding: 1.2rem 0;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+.stat {
+  background: linear-gradient(180deg, #fff, #fffaf7);
+  border: 1px solid #f0e4db;
+  border-radius: 14px;
+  padding: 0.9rem;
+  text-align: center;
+}
+.stat span {
+  display: block;
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  color: var(--brown);
+}
+.stat small {
+  color: var(--muted);
+}
+
+/* === Team === */
+.team {
+  padding: clamp(1.5rem, 4vw, 3rem) 0;
+}
+.team__grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+.teacher {
+  background: #fff;
+  padding: 0.9rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.teacher img {
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* === Facilities === */
+.facilities {
+  padding: clamp(1.5rem, 4vw, 3rem) 0;
+}
+.facilities__list {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: 1fr;
+}
+.facility {
+  display: flex;
+  gap: 0.8rem;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #f0e4db;
+  padding: 0.9rem;
+  align-items: flex-start;
+}
+.facility .icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+/* === Testimonials === */
+.testimonials {
+  background: var(--peach-2);
+  padding: 1.6rem 0;
+}
+.testimonials__grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+.quote {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+.quote span {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--muted);
+}
+
+/* === CTA === */
+.cta {
+  padding: clamp(1.6rem, 4vw, 3.2rem) 0;
+}
+.cta__box {
+  background: linear-gradient(180deg, #fff, #fffaf6);
+  border: 1px solid #f0e4db;
+  border-radius: 18px;
+  padding: 1.2rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.site-footer {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: var(--muted);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  background: #fff;
+}
+
+/* === Breakpoints === */
+/* ≥460px */
+@media (min-width: 460px) {
+  .card img {
+    height: 240px;
+  }
+}
+
+/* ≥600px */
+@media (min-width: 600px) {
+  .hero__grid {
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+  .mission {
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 1.5rem;
+  }
+  .disciplines .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stats__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .team__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .facilities__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .testimonials__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ≥900px */
+@media (min-width: 900px) {
+  .container {
+    width: min(90%, var(--container));
+  }
+  .card img {
+    height: 260px;
+  }
+}
+
+/* ≥1200px */
+@media (min-width: 1200px) {
+  .hero {
+    padding: 3rem 0 0;
+  }
+  .hero__media img {
+    aspect-ratio: 16/10;
+  }
+}

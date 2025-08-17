@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="./assets/css/about.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <button class="burger" aria-label="Открыть меню" aria-expanded="false">
+        ☰
+      </button>
+      <a class="brand" href="./index.html">Velizade<span>Academy</span></a>
+      <!-- <button class="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">☰</button> -->
+      <nav id="nav" class="nav">
+        <a href="./about.html">О нас</a>
+        <a href="./classes.html">Классы</a>
+        <a href="./instructors.html">Педагоги</a>
+        <a href="./index.html">Галерея</a>
+        <a href="./order.htm" class="btn btn-primary">Записаться</a>
+      </nav>
+    </header>
+
+    <!-- Overlay for drawer -->
+    <div id="drawerOverlay" class="drawer-overlay" hidden></div>
+
+    <!-- Right-side Drawer -->
+    <aside
+      id="drawer"
+      class="drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="drawerTitle"
+      tabindex="-1"
+      hidden
+    >
+      <div class="drawer__header">
+        <h2 id="drawerTitle">Меню</h2>
+        <button type="button" class="drawer__close" aria-label="Закрыть меню">
+          ✕
+        </button>
+      </div>
+      <nav class="drawer__body">
+        <a href="./about.html">О нас</a>
+        <a href="./classes.html">Классы</a>
+        <a href="./instructors.html">Педагоги</a>
+        <a href="./index.html">Галерея</a>
+        <a href="./order.htm" class="btn btn-primary">Записаться</a>
+      </nav>
+    </aside>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="container hero__grid">
+          <div class="hero__text">
+            <h1>О Танцевальной Академии</h1>
+            <p>
+              Мы — пространство для роста и вдохновения: современный танец,
+              моделинг, классический балет и гимнастика. Сочетаем дисциплину и
+              заботу, эстетику и свободу движения.
+            </p>
+            <div class="hero__tags">
+              <span>Contemporary</span>
+              <span>Моделинг</span>
+              <span>Балет</span>
+              <span>Гимнастика</span>
+            </div>
+          </div>
+          <div class="hero__media">
+            <img src="assets/img/1.jpg" alt="Dance Academy" />
+          </div>
+        </div>
+        <!-- <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none">
+          <path
+            d="M0,64L60,53.3C120,43,240,21,360,32C480,43,600,85,720,106.7C840,128,960,128,1080,122.7C1200,117,1320,107,1380,101.3L1440,96L1440,0L0,0Z"
+          ></path>
+        </svg> -->
+      </section>
+
+      <!-- Mission -->
+      <section class="mission container">
+        <div class="mission__img">
+          <img src="assets/img/2.jpg" alt="Наша миссия" />
+        </div>
+        <div class="mission__text">
+          <h2>Наша миссия</h2>
+          <p>
+            Создавать бережную среду обучения, где каждая личность раскрывает
+            потенциал. Мы верим в силу техники и воображения: от академической
+            базы до авторских перформансов.
+          </p>
+          <ul class="bullets">
+            <li>Индивидуальный подход и прогресс-шиты для учеников</li>
+            <li>Современные студии, зеркальные залы, мягкое покрытие</li>
+            <li>Публичные показы, конкурсы и портфолио-съёмки</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Disciplines -->
+      <section class="disciplines container">
+        <h2>Направления</h2>
+        <div class="grid">
+          <article class="card">
+            <img src="assets/img/3.jpg" alt="Современный танец" />
+            <div class="card__body">
+              <h3>Современный танец</h3>
+              <p>
+                Работа с телесной осознанностью, импровизация, партер-техника и
+                композиция.
+              </p>
+            </div>
+          </article>
+          <article class="card">
+            <img src="assets/img/4.jpg" alt="Моделинг" />
+            <div class="card__body">
+              <h3>Моделинг</h3>
+              <p>
+                Постановка осанки и походки, позирование, съёмка луков, развитие
+                пластики кадра.
+              </p>
+            </div>
+          </article>
+          <article class="card">
+            <img src="assets/img/5.jpg" alt="Балет" />
+            <div class="card__body">
+              <h3>Балет</h3>
+              <p>
+                Классическая школа: экзерсис у станка, adagios и allegros,
+                дисциплина и стиль.
+              </p>
+            </div>
+          </article>
+          <article class="card">
+            <img src="assets/img/6.jpg" alt="Гимнастика" />
+            <div class="card__body">
+              <h3>Гимнастика</h3>
+              <p>
+                Растяжка, акробатическая подготовка и контроль корпуса для сцены
+                и спорта.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Stats -->
+      <section class="stats">
+        <div class="container stats__grid">
+          <div class="stat"><span>10+</span><small>лет опыта</small></div>
+          <div class="stat"><span>600+</span><small>выпускников</small></div>
+          <div class="stat"><span>4</span><small>направления</small></div>
+          <div class="stat"><span>10</span><small>педагогов</small></div>
+        </div>
+      </section>
+
+      <!-- Facilities -->
+      <section class="facilities container">
+        <h2>Инфраструктура</h2>
+        <div class="facilities__list">
+          <div class="facility">
+            <div class="icon">🏛️</div>
+            <div>
+              <h4>Профессиональные залы</h4>
+              <p>Зеркала, станки, климат-контроль и амортизирующее покрытие.</p>
+            </div>
+          </div>
+          <div class="facility">
+            <div class="icon">🎥</div>
+            <div>
+              <h4>Медиа-комната</h4>
+              <p>Съёмка перформансов, портфолио и видеоаналитика тренировок.</p>
+            </div>
+          </div>
+          <div class="facility">
+            <div class="icon">🧘</div>
+            <div>
+              <h4>Зона восстановления</h4>
+              <p>
+                Растяжка, расслабление, работа с дыханием и телесным балансом.
+              </p>
+            </div>
+          </div>
+          <div class="facility">
+            <div class="icon">📅</div>
+            <div>
+              <h4>Гибкое расписание</h4>
+              <p>Утренние и вечерние группы, индивидуальные занятия.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials -->
+      <section class="testimonials">
+        <div class="container testimonials__grid">
+          <article class="quote">
+            <p>
+              «Здесь я впервые почувствовала уверенность на сцене. Педагоги —
+              невероятные!»
+            </p>
+            <span>— Нармин, выпускница</span>
+          </article>
+          <article class="quote">
+            <p>
+              «Баланс техники и творчества. Дочь полюбила и балет, и
+              гимнастику.»
+            </p>
+            <span>— Эльдар, родитель</span>
+          </article>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="cta container">
+        <div class="cta__box">
+          <h2>Готовы начать?</h2>
+          <p>
+            Выберите направление и приходите на пробное занятие — мы подберём
+            уровень и группу.
+          </p>
+          <a href="./order.htm" class="btn btn-primary"
+            >Записаться на пробный</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© 2025 Dance Academy. Эстетика в движении.</p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
