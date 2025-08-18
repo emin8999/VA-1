@@ -1,49 +1,133 @@
 <!DOCTYPE html>
 <html lang="ru">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Добавить педагога</title>
+    <title>Add Classes</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="add-instructor.css" />
+    <style>
+      :root {
+        --brown: #3b2d2a;
+        --muted: #6b6b6b;
+      }
+      body {
+        font-family: Inter, system-ui, Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #fff7ef;
+        color: #2b2b2b;
+      }
+      h1 {
+        font-family: "Playfair Display", serif;
+        color: var(--brown);
+        margin: 0 0 12px;
+      }
+      .wrap {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      form {
+        display: grid;
+        gap: 0.7rem;
+        background: #fff;
+        border: 1px solid #f0e4db;
+        border-radius: 12px;
+        padding: 1rem;
+      }
+      .row {
+        display: grid;
+        gap: 0.6rem;
+      }
+      @media (min-width: 700px) {
+        .row.two {
+          grid-template-columns: 1fr 1fr;
+        }
+        .row.three {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+      }
+      label {
+        display: grid;
+        gap: 0.35rem;
+        font-size: 0.95rem;
+      }
+      input,
+      select,
+      textarea {
+        padding: 0.7rem 0.8rem;
+        border: 1px solid #e8dcd3;
+        border-radius: 10px;
+        background: #fff;
+      }
+      textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+      .btn {
+        padding: 0.75rem 1.1rem;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #fad9c1, #ff8c7a);
+        color: #2b1d1a;
+      }
+      .hint {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .bar {
+        display: flex;
+        gap: 0.6rem;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0.6rem 0 1rem;
+      }
+      .bar a {
+        color: #2b2b2b;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .ok {
+        color: #256c2c;
+        font-weight: 600;
+        display: none;
+      }
+    </style>
   </head>
   <body>
-    <header class="head">
-      <h1>Добавить педагога</h1>
-      <a class="link" href="instructors.html">→ Перейти к списку педагогов</a>
-    </header>
+    <div class="wrap">
+      <div class="bar">
+        <h1>Добавление классов</h1>
+        <a href="classes-list.html">→ Открыть страницу со списком</a>
+      </div>
 
-    <main class="wrap">
-      <form id="instructorForm" class="card">
+      <form id="classForm">
         <div class="row two">
           <label
-            >Имя и фамилия
+            >Название класса
             <input
-              id="name"
               type="text"
-              placeholder="Напр.: Айлин Кара"
+              id="title"
+              placeholder="Балет (Ballet Basics)"
               required
             />
           </label>
           <label
-            >Направление
-            <select id="discipline" required>
+            >Тип (category)
+            <select id="type" required>
               <option value="">Выберите…</option>
-              <option value="ballet">Балет</option>
-              <option value="folk">Народные</option>
-              <option value="rnb">R&B / Хип-хоп</option>
+              <option value="dance">Танцы</option>
               <option value="modeling">Моделинг</option>
               <option value="vocal">Вокал</option>
-              <option value="gym">Гимнастика</option>
-              <option value="contemporary">Contemporary</option>
-              <option value="jazzfunk">Jazz Funk</option>
-              <option value="latin">Latino</option>
-              <option value="tap">Tap / Степ</option>
+              <option value="fitness">Фитнес/Гимнастика</option>
             </select>
           </label>
         </div>
@@ -59,101 +143,113 @@
             </select>
           </label>
           <label
+            >Педагог
+            <input type="text" id="teacher" placeholder="Турал" required />
+          </label>
+        </div>
+
+        <div class="row two">
+          <label
             >Расписание
             <input
-              id="schedule"
               type="text"
-              placeholder="Напр.: Пн/Ср · 19:00"
+              id="schedule"
+              placeholder="Пн/Ср · 19:00"
+              required
+            />
+          </label>
+          <label
+            >Картинка (URL)
+            <input
+              type="url"
+              id="image"
+              placeholder="assets/img/5.jpg или https://…"
               required
             />
           </label>
         </div>
 
         <label
-          >Био (кратко)
+          >Описание
           <textarea
-            id="bio"
-            placeholder="Contemporary, растяжка, импровизация и композиция…"
+            id="description"
+            placeholder="Экзерсис у станка, постановка корпуса, координация и пластика."
             required
           ></textarea>
         </label>
 
-        <div class="row two">
-          <label
-            >Изображение (URL)
-            <input
-              id="img"
-              type="url"
-              placeholder="assets/img/6.jpg или https://…"
-              required
-            />
-          </label>
-          <label
-            >Кнопка «Записаться» (ссылка)
-            <input
-              id="cta"
-              type="url"
-              placeholder="index.html#contact"
-              value="index.html#contact"
-            />
-          </label>
-        </div>
-
         <label
-          >Теги (поисковые, через пробел)
-          <input
-            id="tags"
-            type="text"
-            placeholder="contemporary stretch improvisation"
-          />
-          <small class="hint"
-            >Используются для поиска/фильтра на странице педагогов.</small
-          >
+          >Теги (через пробел)
+          <input type="text" id="tags" placeholder="dance ballet классика" />
+          <span class="hint">Эти теги используются для поиска/фильтра</span>
         </label>
 
-        <div class="actions">
-          <button class="btn btn-primary" type="submit">
-            Сохранить педагога
-          </button>
-          <span id="ok" class="ok" hidden>Сохранено ✓</span>
-        </div>
+        <button class="btn btn-primary" type="submit">Добавить класс</button>
+        <span id="okMsg" class="ok">Класс добавлен ✓</span>
       </form>
+    </div>
 
-      <!-- лайв-превью карточки -->
-      <section class="preview">
-        <h2>Превью</h2>
-        <article class="pr-card">
-          <div id="prImg" class="pr-media"></div>
-          <div class="pr-body">
-            <h3 id="prName">Имя Фамилия</h3>
-            <div class="badges">
-              <span id="prDiscipline" class="badge">Направление</span>
-              <span id="prLevel" class="badge badge--lvl">Уровень</span>
-            </div>
-            <p id="prBio" class="muted">Краткое био педагога…</p>
-            <div class="meta">
-              <span id="prSchedule">Расписание</span>
-            </div>
-            <a id="prCta" class="btn btn-outline" href="#" target="_self"
-              >Записаться</a
-            >
-          </div>
-        </article>
-      </section>
+    <script>
+      (function () {
+        const form = document.getElementById("classForm");
+        const okMsg = document.getElementById("okMsg");
+        const LEVEL_MAP = {
+          beginner: "Начинающий",
+          intermediate: "Средний",
+          advanced: "Продвинутый",
+        };
+        const STORAGE_KEY = "academyClasses";
+        const bc =
+          "BroadcastChannel" in window ? new BroadcastChannel("classes") : null;
 
-      <!-- СПИСОК СОХРАНЁННЫХ ПЕДАГОГОВ -->
-      <section class="list">
-        <div class="list-header">
-          <h2>Сохранённые педагоги</h2>
-          <small class="muted">Нажми «Удалить» для удаления из списка.</small>
-        </div>
-        <div id="insGrid" class="grid"></div>
-        <div id="emptyList" class="empty" style="display: none">
-          Пока нет ни одного педагога.
-        </div>
-      </section>
-    </main>
+        function loadList() {
+          try {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+          } catch {
+            return [];
+          }
+        }
+        function saveList(list) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+          // мгновенное оповещение второй страницы
+          if (bc) bc.postMessage({ type: "updated" });
+        }
 
-    <script src="add-instructor.js"></script>
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const item = {
+            id: Date.now(),
+            title: form.title.value.trim(),
+            type: form.type.value,
+            level: form.level.value,
+            levelName: LEVEL_MAP[form.level.value] || form.level.value,
+            teacher: form.teacher.value.trim(),
+            schedule: form.schedule.value.trim(),
+            image: form.image.value.trim(),
+            description: form.description.value.trim(),
+            tags: (form.tags.value || "").trim(),
+          };
+          if (
+            !item.title ||
+            !item.type ||
+            !item.level ||
+            !item.teacher ||
+            !item.schedule ||
+            !item.image ||
+            !item.description
+          ) {
+            alert("Заполни все обязательные поля");
+            return;
+          }
+          const list = loadList();
+          list.push(item); // добавляем в конец (сохранение порядка)
+          saveList(list);
+
+          form.reset();
+          okMsg.style.display = "inline";
+          setTimeout(() => (okMsg.style.display = "none"), 2000);
+        });
+      })();
+    </script>
   </body>
 </html>

@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dashboard</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --cream: #fff7ef;
+        --peach: #fad9c1;
+        --coral: #ff8c7a;
+        --brown: #3b2d2a;
+        --muted: #6b6b6b;
+        --radius: 16px;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        --container: 1200px;
+        --bg: #fff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, Arial, sans-serif;
+        background: var(--cream);
+        color: #2b2b2b;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: min(96%, var(--container));
+        margin: 16px auto 6px;
+      }
+      .header h1 {
+        margin: 0;
+        font-family: "Playfair Display", serif;
+        color: var(--brown);
+        font-size: 1.8rem;
+      }
+      .header .nav {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .tab-btn {
+        border: 0;
+        padding: 0.65rem 0.9rem;
+        border-radius: 999px;
+        background: #fff;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .tab-btn.active {
+        background: linear-gradient(135deg, var(--peach), var(--coral));
+        color: #2b1d1a;
+      }
+
+      .wrap {
+        width: min(96%, var(--container));
+        margin: 0 auto 24px;
+        display: grid;
+        gap: 1rem;
+      }
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1rem;
+      }
+      @media (min-width: 680px) {
+        .summary {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      .card {
+        background: var(--bg);
+        border: 1px solid #f0e4db;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        padding: 1rem;
+      }
+      .card h3 {
+        margin: 0.2rem 0 0.6rem;
+        font-size: 1rem;
+        color: #53403b;
+      }
+      .kpi {
+        display: flex;
+        align-items: flex-end;
+        gap: 0.35rem;
+        font-size: 2rem;
+        font-weight: 800;
+      }
+      .kpi small {
+        font-size: 0.9rem;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .row {
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .section {
+        background: var(--bg);
+        border: 1px solid #f0e4db;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        padding: 1rem;
+        display: none;
+      }
+      .section.active {
+        display: block;
+      }
+      .section .head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.6rem;
+        margin-bottom: 0.6rem;
+      }
+      .section h2 {
+        margin: 0;
+        font-family: "Playfair Display", serif;
+        color: var(--brown);
+        font-size: 1.4rem;
+      }
+      .actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        font-weight: 600;
+        background: #fff;
+      }
+      .btn--primary {
+        background: linear-gradient(135deg, var(--peach), var(--coral));
+        color: #2b1d1a;
+      }
+      .btn--outline {
+        border-color: #b9a79d;
+        color: #3b2d2a;
+      }
+      .btn--danger {
+        background: #b21e1e;
+        color: #fff;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      @media (min-width: 680px) {
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (min-width: 1024px) {
+        .grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      .card-item {
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid #f0e4db;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .thumb {
+        position: relative;
+        width: 100%;
+        padding-top: 60%;
+        background: #f7f1ec;
+        overflow: hidden;
+      }
+      .thumb > img,
+      .thumb > video,
+      .thumb > iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: 0;
+      }
+      .item-body {
+        padding: 0.85rem 1rem;
+        display: grid;
+        gap: 0.4rem;
+      }
+      .title {
+        font-weight: 700;
+      }
+      .meta {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        color: var(--muted);
+        font-size: 0.93rem;
+      }
+      .empty {
+        padding: 1.2rem;
+        text-align: center;
+        color: var(--muted);
+        border: 1px dashed #e8dcd3;
+        border-radius: 10px;
+        background: #fff;
+      }
+
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+      }
+      .table th,
+      .table td {
+        padding: 0.6rem 0.5rem;
+        border-bottom: 1px solid #f0e4db;
+        text-align: left;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 0.78rem;
+        padding: 0.2rem 0.55rem;
+        border-radius: 999px;
+        border: 1px solid #efdfd6;
+        background: #fff6ef;
+        color: #6b4a43;
+      }
+      .badge--lvl {
+        background: #eef8ff;
+        border-color: #d7ebff;
+        color: #2d5a85;
+      }
+      .mini {
+        font-size: 0.88rem;
+        color: var(--muted);
+      }
+      .link {
+        color: #2b2b2b;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .footer {
+        width: min(96%, var(--container));
+        margin: 18px auto 30px;
+        color: var(--muted);
+        text-align: center;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <h1>Dashboard</h1>
+      <nav class="nav" aria-label="Разделы">
+        <button class="tab-btn active" data-tab="overview">Обзор</button>
+        <button class="tab-btn" data-tab="gallery">Галерея</button>
+        <button class="tab-btn" data-tab="instructors">Инструкторы</button>
+        <button class="tab-btn" data-tab="classes">Классы</button>
+      </nav>
+    </header>
+
+    <main class="wrap">
+      <!-- KPIs -->
+      <section class="summary" aria-label="Показатели">
+        <div class="card">
+          <h3>Галерея (элементов)</h3>
+          <div class="kpi">
+            <span id="kpiGallery">0</span><small id="kpiGalleryHint"></small>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Инструкторы</h3>
+          <div class="kpi">
+            <span id="kpiInstructors">0</span
+            ><small id="kpiInstructorsHint"></small>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Классы</h3>
+          <div class="kpi">
+            <span id="kpiClasses">0</span><small id="kpiClassesHint"></small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Overview -->
+      <section id="tab-overview" class="section active">
+        <div class="head">
+          <h2>Обзор</h2>
+          <div class="actions">
+            <a class="btn btn--outline" href="./add-gallery.html"
+              >➕ В галерею</a
+            >
+            <a class="btn btn--outline" href="./add-instructors.html"
+              >➕ Педагога</a
+            >
+            <a class="btn btn--outline" href="./add-classes.html">➕ Класс</a>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="card">
+            <h3>Последние из галереи</h3>
+            <div id="ovGallery" class="grid"></div>
+            <div id="ovGalleryEmpty" class="empty" style="display: none">
+              Пока пусто
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Новые инструкторы</h3>
+            <table class="table" id="ovInstructors">
+              <thead>
+                <tr>
+                  <th>Имя</th>
+                  <th>Направление</th>
+                  <th>Уровень</th>
+                  <th>Расписание</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <div id="ovInstructorsEmpty" class="empty" style="display: none">
+              Пока пусто
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Новые классы</h3>
+            <table class="table" id="ovClasses">
+              <thead>
+                <tr>
+                  <th>Название</th>
+                  <th>Тип</th>
+                  <th>Уровень</th>
+                  <th>Педагог</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <div id="ovClassesEmpty" class="empty" style="display: none">
+              Пока пусто
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gallery -->
+      <section id="tab-gallery" class="section">
+        <div class="head">
+          <h2>Галерея</h2>
+          <div class="actions">
+            <a class="btn btn--primary" href="./add-gallery.html">Добавить</a>
+            <button id="galClear" class="btn btn--danger">Удалить всё</button>
+          </div>
+        </div>
+        <div id="galGrid" class="grid"></div>
+        <div id="galEmpty" class="empty" style="display: none">
+          Пока ничего нет.
+        </div>
+      </section>
+
+      <!-- Instructors -->
+      <section id="tab-instructors" class="section">
+        <div class="head">
+          <h2>Инструкторы</h2>
+          <div class="actions">
+            <a class="btn btn--primary" href="./add-instructors.html"
+              >Добавить</a
+            >
+            <button id="insClear" class="btn btn--danger">Удалить всех</button>
+          </div>
+        </div>
+        <table class="table" id="insTable">
+          <thead>
+            <tr>
+              <th>Имя</th>
+              <th>Направление</th>
+              <th>Уровень</th>
+              <th>Расписание</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div id="insEmpty" class="empty" style="display: none">Пока пусто.</div>
+      </section>
+
+      <!-- Classes -->
+      <section id="tab-classes" class="section">
+        <div class="head">
+          <h2>Классы</h2>
+          <div class="actions">
+            <a class="btn btn--primary" href="./add-classes.html">Добавить</a>
+            <button id="clsClear" class="btn btn--danger">Удалить все</button>
+          </div>
+        </div>
+        <table class="table" id="clsTable">
+          <thead>
+            <tr>
+              <th>Название</th>
+              <th>Тип</th>
+              <th>Уровень</th>
+              <th>Педагог</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div id="clsEmpty" class="empty" style="display: none">Пока пусто.</div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      © 2025 Dashboard · автообновление: localStorage + BroadcastChannel
+    </footer>
+
+    <script>
+      (function () {
+        const LS = {
+          gallery: "academyGallery",
+          instructors: "academyInstructors",
+          classes: "academyClasses",
+        };
+
+        // BroadcastChannels (если доступны)
+        const bc = {
+          gallery:
+            "BroadcastChannel" in window
+              ? new BroadcastChannel("gallery")
+              : null,
+          instructors:
+            "BroadcastChannel" in window
+              ? new BroadcastChannel("instructors")
+              : null,
+          classes:
+            "BroadcastChannel" in window
+              ? new BroadcastChannel("classes")
+              : null,
+        };
+
+        // maps для красивых подписей
+        const LEVEL_MAP = {
+          beginner: "Начинающий",
+          intermediate: "Средний",
+          advanced: "Продвинутый",
+        };
+        const DISC_MAP = {
+          ballet: "Балет",
+          folk: "Народные",
+          rnb: "R&B / Хип-хоп",
+          modeling: "Моделинг",
+          vocal: "Вокал",
+          gym: "Гимнастика",
+          contemporary: "Contemporary",
+          jazzfunk: "Jazz Funk",
+          latin: "Latino",
+          tap: "Tap / Степ",
+        };
+
+        // helpers
+        const $ = (sel) => document.querySelector(sel);
+        const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+        const esc = (s) =>
+          String(s || "").replace(
+            /[&<>\"']/g,
+            (m) =>
+              ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+              }[m])
+          );
+
+        function load(key) {
+          try {
+            return JSON.parse(localStorage.getItem(key)) || [];
+          } catch {
+            return [];
+          }
+        }
+        function save(key, val) {
+          localStorage.setItem(key, JSON.stringify(val));
+          // пингуем канал
+          const channel =
+            key === LS.gallery
+              ? bc.gallery
+              : key === LS.instructors
+              ? bc.instructors
+              : bc.classes;
+          if (channel) channel.postMessage({ type: "updated" });
+        }
+
+        // KPI
+        function renderKPIs() {
+          const gal = load(LS.gallery);
+          const ins = load(LS.instructors);
+          const cls = load(LS.classes);
+
+          $("#kpiGallery").textContent = gal.length;
+          $("#kpiInstructors").textContent = ins.length;
+          $("#kpiClasses").textContent = cls.length;
+
+          // hint: последние обновления
+          const lastGal = gal.at(-1)?.title || gal.at(-1)?.kind;
+          const lastIns = ins.at(-1)?.name;
+          const lastCls = cls.at(-1)?.title || cls.at(-1)?.name;
+
+          $("#kpiGalleryHint").textContent = lastGal
+            ? ` • последн.: ${lastGal}`
+            : "";
+          $("#kpiInstructorsHint").textContent = lastIns
+            ? ` • последн.: ${lastIns}`
+            : "";
+          $("#kpiClassesHint").textContent = lastCls
+            ? ` • последн.: ${lastCls}`
+            : "";
+        }
+
+        // Overview blocks
+        function renderOverviewGallery() {
+          const list = load(LS.gallery);
+          const box = $("#ovGallery");
+          const empty = $("#ovGalleryEmpty");
+          box.innerHTML = "";
+          const latest = list.slice(-6).reverse();
+          if (!latest.length) {
+            empty.style.display = "block";
+            return;
+          }
+          empty.style.display = "none";
+          latest.forEach((item) => {
+            const card = document.createElement("div");
+            card.className = "card-item";
+            const thumb = document.createElement("div");
+            thumb.className = "thumb";
+
+            if (item.kind === "video") {
+              const embed =
+                (item.src || "").includes("youtube.com/embed") ||
+                (item.src || "").includes("player.vimeo.com");
+              if (embed) {
+                const ifr = document.createElement("iframe");
+                ifr.src = item.src;
+                ifr.allowFullscreen = true;
+                ifr.loading = "lazy";
+                thumb.appendChild(ifr);
+              } else {
+                const v = document.createElement("video");
+                if (item.poster) v.poster = item.poster;
+                v.src = item.src;
+                v.controls = true;
+                thumb.appendChild(v);
+              }
+            } else {
+              const img = document.createElement("img");
+              img.src = item.src;
+              img.alt = item.title || "Фото";
+              thumb.appendChild(img);
+            }
+
+            const body = document.createElement("div");
+            body.className = "item-body";
+            body.innerHTML = `
+        <div class="title">${esc(item.title || "(без названия)")}</div>
+        <div class="meta"><span>${
+          item.kind === "video" ? "Видео" : "Фото"
+        }</span></div>
+      `;
+            card.appendChild(thumb);
+            card.appendChild(body);
+            box.appendChild(card);
+          });
+        }
+
+        function renderOverviewInstructors() {
+          const list = load(LS.instructors).slice(-6).reverse();
+          const tbody = $("#ovInstructors tbody");
+          const empty = $("#ovInstructorsEmpty");
+          tbody.innerHTML = "";
+          if (!list.length) {
+            empty.style.display = "block";
+            return;
+          }
+          empty.style.display = "none";
+          list.forEach((x) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+        <td>${esc(x.name || "")}</td>
+        <td>${esc(DISC_MAP[x.discipline] || x.discipline || "")}</td>
+        <td><span class="badge badge--lvl">${esc(
+          LEVEL_MAP[x.level] || x.level || ""
+        )}</span></td>
+        <td class="mini">${esc(x.schedule || "")}</td>`;
+            tbody.appendChild(tr);
+          });
+        }
+
+        function renderOverviewClasses() {
+          const list = load(LS.classes).slice(-6).reverse();
+          const tbody = $("#ovClasses tbody");
+          const empty = $("#ovClassesEmpty");
+          tbody.innerHTML = "";
+          if (!list.length) {
+            empty.style.display = "block";
+            return;
+          }
+          empty.style.display = "none";
+          list.forEach((x) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+        <td>${esc(x.title || x.name || "")}</td>
+        <td>${esc(x.type || x.kind || "")}</td>
+        <td><span class="badge badge--lvl">${esc(
+          LEVEL_MAP[x.level] || x.level || ""
+        )}</span></td>
+        <td class="mini">${esc(x.instructor || x.teacher || "")}</td>`;
+            tbody.appendChild(tr);
+          });
+        }
+
+        // Full gallery tab
+        function makeGalCard(item, idx) {
+          const el = document.createElement("div");
+          el.className = "card-item";
+          const thumb = document.createElement("div");
+          thumb.className = "thumb";
+          if (item.kind === "image") {
+            const img = document.createElement("img");
+            img.src = item.src;
+            img.alt = item.title || "Фото";
+            thumb.appendChild(img);
+          } else {
+            const isEmbed =
+              (item.src || "").includes("youtube.com/embed") ||
+              (item.src || "").includes("player.vimeo.com");
+            if (isEmbed) {
+              const ifr = document.createElement("iframe");
+              ifr.src = item.src;
+              ifr.allowFullscreen = true;
+              ifr.loading = "lazy";
+              thumb.appendChild(ifr);
+            } else {
+              const v = document.createElement("video");
+              if (item.poster) v.poster = item.poster;
+              v.src = item.src;
+              v.controls = true;
+              thumb.appendChild(v);
+            }
+          }
+          const body = document.createElement("div");
+          body.className = "item-body";
+          body.innerHTML = `<div class="title">${esc(
+            item.title || "(без названия)"
+          )}</div>
+                    <div class="meta">${
+                      item.kind === "video" ? "Видео" : "Фото"
+                    }${item.tags ? ` • теги: ${esc(item.tags)}` : ""}</div>
+                    <div class="actions"><button class="btn btn--danger" data-del-gal="${idx}">Удалить</button></div>`;
+          el.appendChild(thumb);
+          el.appendChild(body);
+          return el;
+        }
+        function renderGalleryTab() {
+          const list = load(LS.gallery);
+          const grid = $("#galGrid");
+          const empty = $("#galEmpty");
+          grid.innerHTML = "";
+          if (!list.length) {
+            empty.style.display = "block";
+            return;
+          }
+          empty.style.display = "none";
+          list.forEach((it, i) => grid.appendChild(makeGalCard(it, i)));
+        }
+
+        // Instructors tab
+        function renderInstructorsTab() {
+          const list = load(LS.instructors);
+          const tbody = $("#insTable tbody");
+          const empty = $("#insEmpty");
+          tbody.innerHTML = "";
+          if (!list.length) {
+            empty.style.display = "block";
+            return;
+          }
+          empty.style.display = "none";
+          list.forEach((x, i) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+        <td>${esc(x.name || "")}</td>
+        <td>${esc(DISC_MAP[x.discipline] || x.discipline || "")}</td>
+        <td><span class="badge badge--lvl">${esc(
+          LEVEL_MAP[x.level] || x.level || ""
+        )}</span></td>
+        <td class="mini">${esc(x.schedule || "")}</td>
+        <td><button class="btn btn--danger" data-del-ins="${i}">Удалить</button></td>`;
+            tbody.appendChild(tr);
+          });
+        }
+
+        // Classes tab
+        function renderClassesTab() {
+          const list = load(LS.classes);
+          const tbody = $("#clsTable tbody");
+          const empty = $("#clsEmpty");
+          tbody.innerHTML = "";
+          if (!list.length) {
+            empty.style.display = "block";
+            return;
+          }
+          empty.style.display = "none";
+          list.forEach((x, i) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+        <td>${esc(x.title || x.name || "")}</td>
+        <td>${esc(x.type || x.kind || "")}</td>
+        <td><span class="badge badge--lvl">${esc(
+          LEVEL_MAP[x.level] || x.level || ""
+        )}</span></td>
+        <td class="mini">${esc(x.instructor || x.teacher || "")}</td>
+        <td><button class="btn btn--danger" data-del-cls="${i}">Удалить</button></td>`;
+            tbody.appendChild(tr);
+          });
+        }
+
+        // Delete handlers
+        document.addEventListener("click", (e) => {
+          const g = e.target.closest("[data-del-gal]");
+          const i = e.target.closest("[data-del-ins]");
+          const c = e.target.closest("[data-del-cls]");
+          if (g) {
+            const idx = +g.dataset.delGal;
+            const list = load(LS.gallery);
+            if (confirm("Удалить элемент галереи?")) {
+              list.splice(idx, 1);
+              save(LS.gallery, list);
+              rerenderAll();
+            }
+          }
+          if (i) {
+            const idx = +i.dataset.delIns;
+            const list = load(LS.instructors);
+            if (confirm("Удалить инструктора?")) {
+              list.splice(idx, 1);
+              save(LS.instructors, list);
+              rerenderAll();
+            }
+          }
+          if (c) {
+            const idx = +c.dataset.delCls;
+            const list = load(LS.classes);
+            if (confirm("Удалить класс?")) {
+              list.splice(idx, 1);
+              save(LS.classes, list);
+              rerenderAll();
+            }
+          }
+        });
+
+        // Clear all buttons
+        $("#galClear").addEventListener("click", () => {
+          const list = load(LS.gallery);
+          if (!list.length) return;
+          if (confirm("Удалить всю галерею?")) {
+            save(LS.gallery, []);
+            rerenderAll();
+          }
+        });
+        $("#insClear").addEventListener("click", () => {
+          const list = load(LS.instructors);
+          if (!list.length) return;
+          if (confirm("Удалить всех инструкторов?")) {
+            save(LS.instructors, []);
+            rerenderAll();
+          }
+        });
+        $("#clsClear").addEventListener("click", () => {
+          const list = load(LS.classes);
+          if (!list.length) return;
+          if (confirm("Удалить все классы?")) {
+            save(LS.classes, []);
+            rerenderAll();
+          }
+        });
+
+        // Tabs
+        $$(".tab-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            $$(".tab-btn").forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            const tab = btn.dataset.tab;
+            $$(".section").forEach((s) => s.classList.remove("active"));
+            $("#tab-" + tab).classList.add("active");
+          });
+        });
+
+        function rerenderAll() {
+          renderKPIs();
+          renderOverviewGallery();
+          renderOverviewInstructors();
+          renderOverviewClasses();
+          renderGalleryTab();
+          renderInstructorsTab();
+          renderClassesTab();
+        }
+
+        // Initial
+        rerenderAll();
+
+        // Listen storage and BC
+        window.addEventListener("storage", (e) => {
+          if ([LS.gallery, LS.instructors, LS.classes].includes(e.key))
+            rerenderAll();
+        });
+        Object.values(bc).forEach(
+          (ch) =>
+            ch &&
+            ch.addEventListener("message", (ev) => {
+              if (ev.data?.type === "updated") rerenderAll();
+            })
+        );
+      })();
+    </script>
+  </body>
+</html>
