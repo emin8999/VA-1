@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Добавить педагога</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="add-instructor.css" />
+  </head>
+  <body>
+    <header class="head">
+      <h1>Добавить педагога</h1>
+      <a class="link" href="instructors.html">→ Перейти к списку педагогов</a>
+    </header>
+
+    <main class="wrap">
+      <form id="instructorForm" class="card">
+        <div class="row two">
+          <label
+            >Имя и фамилия
+            <input
+              id="name"
+              type="text"
+              placeholder="Напр.: Айлин Кара"
+              required
+            />
+          </label>
+          <label
+            >Направление
+            <select id="discipline" required>
+              <option value="">Выберите…</option>
+              <option value="ballet">Балет</option>
+              <option value="folk">Народные</option>
+              <option value="rnb">R&B / Хип-хоп</option>
+              <option value="modeling">Моделинг</option>
+              <option value="vocal">Вокал</option>
+              <option value="gym">Гимнастика</option>
+              <option value="contemporary">Contemporary</option>
+              <option value="jazzfunk">Jazz Funk</option>
+              <option value="latin">Latino</option>
+              <option value="tap">Tap / Степ</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="row two">
+          <label
+            >Уровень
+            <select id="level" required>
+              <option value="">Выберите…</option>
+              <option value="beginner">Начинающий</option>
+              <option value="intermediate">Средний</option>
+              <option value="advanced">Продвинутый</option>
+            </select>
+          </label>
+          <label
+            >Расписание
+            <input
+              id="schedule"
+              type="text"
+              placeholder="Напр.: Пн/Ср · 19:00"
+              required
+            />
+          </label>
+        </div>
+
+        <label
+          >Био (кратко)
+          <textarea
+            id="bio"
+            placeholder="Contemporary, растяжка, импровизация и композиция…"
+            required
+          ></textarea>
+        </label>
+
+        <div class="row two">
+          <label
+            >Изображение (URL)
+            <input
+              id="img"
+              type="url"
+              placeholder="assets/img/6.jpg или https://…"
+              required
+            />
+          </label>
+          <label
+            >Кнопка «Записаться» (ссылка)
+            <input
+              id="cta"
+              type="url"
+              placeholder="index.html#contact"
+              value="index.html#contact"
+            />
+          </label>
+        </div>
+
+        <label
+          >Теги (поисковые, через пробел)
+          <input
+            id="tags"
+            type="text"
+            placeholder="contemporary stretch improvisation"
+          />
+          <small class="hint"
+            >Используются для поиска/фильтра на странице педагогов.</small
+          >
+        </label>
+
+        <div class="actions">
+          <button class="btn btn-primary" type="submit">
+            Сохранить педагога
+          </button>
+          <span id="ok" class="ok" hidden>Сохранено ✓</span>
+        </div>
+      </form>
+
+      <!-- лайв-превью карточки -->
+      <section class="preview">
+        <h2>Превью</h2>
+        <article class="pr-card">
+          <div id="prImg" class="pr-media"></div>
+          <div class="pr-body">
+            <h3 id="prName">Имя Фамилия</h3>
+            <div class="badges">
+              <span id="prDiscipline" class="badge">Направление</span>
+              <span id="prLevel" class="badge badge--lvl">Уровень</span>
+            </div>
+            <p id="prBio" class="muted">Краткое био педагога…</p>
+            <div class="meta">
+              <span id="prSchedule">Расписание</span>
+            </div>
+            <a id="prCta" class="btn btn-outline" href="#" target="_self"
+              >Записаться</a
+            >
+          </div>
+        </article>
+      </section>
+
+      <!-- СПИСОК СОХРАНЁННЫХ ПЕДАГОГОВ -->
+      <section class="list">
+        <div class="list-header">
+          <h2>Сохранённые педагоги</h2>
+          <small class="muted">Нажми «Удалить» для удаления из списка.</small>
+        </div>
+        <div id="insGrid" class="grid"></div>
+        <div id="emptyList" class="empty" style="display: none">
+          Пока нет ни одного педагога.
+        </div>
+      </section>
+    </main>
+
+    <script src="add-instructor.js"></script>
+  </body>
+</html>

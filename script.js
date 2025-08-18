@@ -192,6 +192,146 @@ document.addEventListener("DOMContentLoaded", () => {
   applyFilters();
 });
 
+//add class
+document.addEventListener("DOMContentLoaded", () => {
+  const STORAGE_KEY = "academyClasses";
+  const grid = document.getElementById("classesGrid");
+  const empty = document.getElementById("emptyMsg");
+
+  // Фильтры (у тебя уже есть такие id в разметке)
+  const searchInput = document.getElementById("classSearch");
+  const typeFilter = document.getElementById("typeFilter");
+  const levelFilter = document.getElementById("levelFilter");
+
+  // Для мгновенных обновлений между вкладками
+  const bc =
+    "BroadcastChannel" in window ? new BroadcastChannel("classes") : null;
+
+  // Преобразование уровня в читаемый вид
+  const LEVEL_MAP = {
+    beginner: "Начинающий",
+    intermediate: "Средний",
+    advanced: "Продвинутый",
+  };
+  const TYPE_MAP = {
+    dance: "Танцы",
+    modeling: "Моделинг",
+    vocal: "Вокал",
+    fitness: "Фитнес/Гимнастика",
+  };
+
+  function loadClasses() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  function escapeHtml(s = "") {
+    return s.replace(
+      /[&<>"']/g,
+      (m) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        }[m])
+    );
+  }
+
+  function makeCard(cls) {
+    const article = document.createElement("article");
+    article.className = "card";
+    article.dataset.tags = cls.tags || "";
+    article.dataset.type = cls.type || "";
+    article.dataset.level = cls.level || "";
+
+    article.innerHTML = `
+      <div class="card__media" style="--img:url('${escapeHtml(
+        cls.image
+      )}'); background-image:url('${escapeHtml(cls.image)}')"></div>
+      <div class="card__body">
+        <h3>${escapeHtml(cls.title || "")}</h3>
+        <div class="badges">
+          <span class="badge">${
+            TYPE_MAP[cls.type] || escapeHtml(cls.type || "Тип")
+          }</span>
+          <span class="badge badge--lvl">${
+            LEVEL_MAP[cls.level] || escapeHtml(cls.level || "Уровень")
+          }</span>
+        </div>
+        <p>${escapeHtml(cls.description || "")}</p>
+        <div class="meta">
+          <span>${escapeHtml(cls.schedule || "")}</span>
+          <span>Педагог: ${escapeHtml(cls.teacher || "")}</span>
+        </div>
+        <a href="#signup" class="btn btn-outline">Записаться</a>
+      </div>
+    `;
+    return article;
+  }
+
+  function applyFilters() {
+    const q = (searchInput?.value || "").toLowerCase().trim();
+    const type = typeFilter?.value || "all";
+    const level = levelFilter?.value || "all";
+
+    // фильтрация уже отрисованных карточек
+    const cards = grid.querySelectorAll(".card");
+    cards.forEach((card) => {
+      const tags = (card.dataset.tags || "").toLowerCase();
+      const text = (card.querySelector("h3")?.textContent || "").toLowerCase();
+      const ctype = card.dataset.type || "";
+      const clevel = card.dataset.level || "";
+
+      const matchesSearch = !q || tags.includes(q) || text.includes(q);
+      const matchesType = type === "all" || ctype === type;
+      const matchesLevel = level === "all" || clevel === level;
+
+      card.style.display =
+        matchesSearch && matchesType && matchesLevel ? "" : "none";
+    });
+  }
+
+  function render() {
+    const list = loadClasses();
+    grid.innerHTML = "";
+
+    if (!list.length) {
+      if (empty) empty.style.display = "block";
+      return;
+    }
+    if (empty) empty.style.display = "none";
+
+    // Порядок сохраняем как в localStorage (push → в конец)
+    list.forEach((cls) => grid.appendChild(makeCard(cls)));
+    applyFilters(); // применить выбранные фильтры сразу после рендера
+  }
+
+  // Первичный рендер
+  render();
+
+  // Живые обновления: BroadcastChannel (если обе страницы открыты)
+  if (bc) {
+    bc.addEventListener("message", (ev) => {
+      if (ev.data && ev.data.type === "updated") render();
+    });
+  }
+
+  // Обновление при изменении localStorage (если добавление было из другой вкладки/окна)
+  window.addEventListener("storage", (e) => {
+    if (e.key === STORAGE_KEY) render();
+  });
+
+  // Фильтры
+  searchInput?.addEventListener("input", applyFilters);
+  typeFilter?.addEventListener("change", applyFilters);
+  levelFilter?.addEventListener("change", applyFilters);
+});
+
 //instructors
 document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("grid");
@@ -318,4 +458,307 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !modal.hidden) closeModal();
   });
+});
+
+//add-instructors.js
+document.addEventListener("DOMContentLoaded", () => {
+  const STORAGE_KEY = "academyInstructors"; // ключ в localStorage
+  const grid = document.getElementById("grid");
+  const empty = document.getElementById("emptyMsg");
+
+  // фильтры
+  const qInput = document.getElementById("q");
+  const dSelect = document.getElementById("discipline");
+  const lSelect = document.getElementById("level");
+
+  // модалка
+  const overlay = document.getElementById("modalOverlay");
+  const modal = document.getElementById("modal");
+  const closeBtn = modal.querySelector(".modal__close");
+  const mTitle = document.getElementById("modalTitle");
+  const mImg = document.getElementById("modalImg");
+  const mBio = document.getElementById("modalBio");
+  const mDiscipline = document.getElementById("modalDiscipline");
+  const mLevel = document.getElementById("modalLevel");
+  const mSchedule = document.getElementById("modalSchedule");
+  const mCta = document.getElementById("modalCta");
+
+  // живые обновления между вкладками
+  const bc =
+    "BroadcastChannel" in window ? new BroadcastChannel("instructors") : null;
+
+  const LEVEL_MAP = {
+    beginner: "Начинающий",
+    intermediate: "Средний",
+    advanced: "Продвинутый",
+  };
+  const DISC_MAP = {
+    ballet: "Балет",
+    folk: "Народные",
+    rnb: "R&B / Хип-хоп",
+    modeling: "Моделинг",
+    vocal: "Вокал",
+    gym: "Гимнастика",
+    contemporary: "Contemporary",
+    jazzfunk: "Jazz Funk",
+    latin: "Latino",
+    tap: "Tap / Степ",
+  };
+
+  function loadList() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch {
+      return [];
+    }
+  }
+  function escapeHtml(s = "") {
+    return s.replace(
+      /[&<>"']/g,
+      (m) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        }[m])
+    );
+  }
+
+  function makeCard(ins) {
+    const el = document.createElement("article");
+    el.className = "card";
+    el.dataset.name = ins.name || "";
+    el.dataset.tags = ins.tags || "";
+    el.dataset.discipline = ins.discipline || "";
+    el.dataset.level = ins.level || "";
+    el.dataset.img = ins.img || "";
+    el.dataset.bio = ins.bio || "";
+    el.dataset.schedule = ins.schedule || "";
+    el.dataset.cta = ins.cta || "#";
+
+    el.innerHTML = `
+      <div class="card__media" style="--img:url('${escapeHtml(
+        ins.img || ""
+      )}'); background-image:url('${escapeHtml(ins.img || "")}')"></div>
+      <div class="card__body">
+        <h3>${escapeHtml(ins.name || "")}</h3>
+        <div class="badges">
+          <span class="badge">${
+            DISC_MAP[ins.discipline] ||
+            escapeHtml(ins.discipline || "Направление")
+          }</span>
+          <span class="badge badge--lvl">${
+            LEVEL_MAP[ins.level] || escapeHtml(ins.level || "Уровень")
+          }</span>
+        </div>
+        <p>${escapeHtml((ins.bio || "").slice(0, 140))}${
+      ins.bio && ins.bio.length > 140 ? "…" : ""
+    }</p>
+        <button class="btn btn-outline" data-open>Подробнее</button>
+      </div>
+    `;
+    return el;
+  }
+
+  function render() {
+    const list = loadList();
+    grid.innerHTML = "";
+    if (!list.length) {
+      empty.style.display = "block";
+      return;
+    }
+    empty.style.display = "none";
+    list.forEach((ins) => grid.appendChild(makeCard(ins)));
+    applyFilters();
+  }
+
+  function norm(s) {
+    return (s || "").toLowerCase().trim();
+  }
+  function applyFilters() {
+    const q = norm(qInput?.value);
+    const d = dSelect?.value || "all";
+    const l = lSelect?.value || "all";
+
+    grid.querySelectorAll(".card").forEach((card) => {
+      const name = norm(card.dataset.name);
+      const tags = norm(card.dataset.tags);
+      const cd = card.dataset.discipline || "";
+      const lv = card.dataset.level || "";
+
+      const matchQ = !q || name.includes(q) || tags.includes(q);
+      const matchD = d === "all" || cd === d;
+      const matchL = l === "all" || lv === l;
+
+      card.style.display = matchQ && matchD && matchL ? "" : "none";
+    });
+  }
+
+  function openModalFromCard(card) {
+    const name = card.dataset.name || "";
+    const img = card.dataset.img || "";
+    const bio = card.dataset.bio || "";
+    const cd = card.dataset.discipline || "";
+    const lv = card.dataset.level || "";
+    const sch = card.dataset.schedule || "";
+    const cta = card.dataset.cta || "#";
+
+    mTitle.textContent = name;
+    mImg.src = img;
+    mImg.alt = name;
+    mBio.textContent = bio;
+    mDiscipline.textContent = DISC_MAP[cd] || "Направление";
+    mLevel.textContent = LEVEL_MAP[lv] || "Уровень";
+    mSchedule.textContent = sch || "Расписание уточняется";
+    mCta.href = cta;
+
+    overlay.hidden = false;
+    modal.hidden = false;
+    requestAnimationFrame(() => {
+      overlay.classList.add("show");
+      modal.classList.add("show");
+    });
+    modal.focus();
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal() {
+    overlay.classList.remove("show");
+    modal.classList.remove("show");
+    document.body.style.overflow = "";
+    setTimeout(() => {
+      overlay.hidden = true;
+      modal.hidden = true;
+    }, 220);
+  }
+
+  // делегирование
+  grid.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-open]");
+    if (!btn) return;
+    const card = e.target.closest(".card");
+    if (card) openModalFromCard(card);
+  });
+  overlay.addEventListener("click", closeModal);
+  closeBtn.addEventListener("click", closeModal);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.hidden) closeModal();
+  });
+
+  // фильтры
+  qInput?.addEventListener("input", applyFilters);
+  dSelect?.addEventListener("change", applyFilters);
+  lSelect?.addEventListener("change", applyFilters);
+
+  // первичный рендер
+  render();
+
+  // живые обновления
+  if (bc)
+    bc.addEventListener("message", (ev) => {
+      if (ev.data?.type === "updated") render();
+    });
+  window.addEventListener("storage", (e) => {
+    if (e.key === STORAGE_KEY) render();
+  });
+});
+
+//add-gallery.js
+document.addEventListener("DOMContentLoaded", () => {
+  const STORAGE_KEY = "academyGallery";
+  const bc =
+    "BroadcastChannel" in window ? new BroadcastChannel("gallery") : null;
+
+  const grid = document.getElementById("galleryGrid");
+  const empty = document.getElementById("galleryEmpty");
+
+  function loadList() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  function render() {
+    const list = loadList();
+    grid.innerHTML = "";
+
+    if (!list.length) {
+      empty.style.display = "block";
+      return;
+    }
+    empty.style.display = "none";
+
+    list.forEach((item) => {
+      const wrap = document.createElement("div");
+      wrap.className = "masonry-item";
+
+      const fig = document.createElement("figure");
+
+      // Контент
+      if (item.kind === "video") {
+        const isEmbed =
+          (item.src || "").includes("youtube.com/embed") ||
+          (item.src || "").includes("player.vimeo.com");
+        if (isEmbed) {
+          const ifr = document.createElement("iframe");
+          ifr.src = item.src;
+          ifr.allowFullscreen = true;
+          ifr.loading = "lazy";
+          fig.appendChild(ifr);
+        } else {
+          const vid = document.createElement("video");
+          if (item.poster) vid.poster = item.poster;
+          vid.src = item.src;
+          vid.controls = true;
+          fig.appendChild(vid);
+        }
+      } else {
+        const img = document.createElement("img");
+        img.src = item.src;
+        img.alt = item.title || "Фото";
+        fig.appendChild(img);
+      }
+
+      // Подпись (если есть)
+      if (item.title || item.caption) {
+        const cap = document.createElement("figcaption");
+        cap.innerHTML = `<strong>${escapeHtml(item.title || "")}</strong>${
+          item.title && item.caption ? " — " : ""
+        }${escapeHtml(item.caption || "")}`;
+        fig.appendChild(cap);
+      }
+
+      wrap.appendChild(fig);
+      grid.appendChild(wrap);
+    });
+  }
+
+  function escapeHtml(s = "") {
+    return s.replace(
+      /[&<>"']/g,
+      (m) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        }[m])
+    );
+  }
+
+  // Первичный рендер
+  render();
+
+  // Обновление, если другая вкладка изменила галерею
+  window.addEventListener("storage", (e) => {
+    if (e.key === STORAGE_KEY) render();
+  });
+  if (bc)
+    bc.addEventListener("message", (ev) => {
+      if (ev.data?.type === "updated") render();
+    });
 });

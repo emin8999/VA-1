@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AddToGallery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./asserts/css/ad-gallery.css" />
+  </head>
+  <body>
+    <header class="head">
+      <h1>Добавить в галерею</h1>
+      <!-- <a class="link" href="gallery.html">→ Перейти к галерее</a> -->
+    </header>
+
+    <main class="wrap">
+      <form id="galleryForm" class="card">
+        <div class="row two">
+          <label
+            >Тип
+            <select id="kind" required>
+              <option value="image">Фото</option>
+              <option value="video">Видео</option>
+            </select>
+          </label>
+          <label
+            >Заголовок
+            <input
+              id="title"
+              type="text"
+              placeholder="Напр.: Концерт, зал №1"
+              required
+            />
+          </label>
+        </div>
+
+        <label
+          >Описание (необязательно)
+          <textarea id="caption" placeholder="Краткое описание…"></textarea>
+        </label>
+
+        <div class="row two">
+          <!-- <label
+            >Ссылка (URL)
+            <input
+              id="url"
+              type="url"
+              placeholder="https://…/photo.jpg или https://youtu.be/…"
+            />
+          </label> -->
+          <label
+            >Файл (локально)
+            <input id="file" type="file" accept="image/*,video/*" />
+          </label>
+        </div>
+
+        <div class="row two">
+          <label
+            >Теги (через пробел)
+            <input id="tags" type="text" placeholder="concert stage group" />
+          </label>
+          <!-- <label id="posterWrap" style="display: none"
+            >Постер (URL, для видео)
+            <input id="poster" type="url" placeholder="https://…/poster.jpg" />
+          </label> -->
+        </div>
+
+        <p class="hint">
+          ⚠️ LocalStorage ограничен по объёму. Для больших видео лучше
+          использовать URL (YouTube/Vimeo/MP4).
+        </p>
+
+        <div class="actions">
+          <button class="btn btn-primary" type="submit">Сохранить</button>
+          <span id="ok" class="ok" hidden>Сохранено ✓</span>
+        </div>
+
+        <div class="preview">
+          <h2>Превью</h2>
+          <div id="previewBox" class="preview-box muted">Пока пусто</div>
+        </div>
+      </form>
+
+      <!-- СПИСОК НИЖЕ -->
+      <section class="list">
+        <div class="list-header">
+          <h2>Все элементы галереи</h2>
+          <div class="filters">
+            <input
+              id="q"
+              type="search"
+              placeholder="Поиск по названию/тегам…"
+            />
+            <select id="fltKind">
+              <option value="all">Все</option>
+              <option value="image">Фото</option>
+              <option value="video">Видео</option>
+            </select>
+            <button id="clearAll" type="button" class="btn btn--danger-outline">
+              Удалить всё
+            </button>
+          </div>
+        </div>
+        <div id="galGrid" class="grid"></div>
+        <div id="emptyList" class="empty" style="display: none">
+          Пока ничего нет.
+        </div>
+      </section>
+    </main>
+
+    <script src="./asserts/js/add-gallery.js"></script>
+  </body>
+</html>

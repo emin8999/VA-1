@@ -423,3 +423,62 @@ h3 {
     display: none;
   }
 }
+/* Masonry-галерея на CSS columns */
+.masonry {
+  column-count: 1;
+  column-gap: 1rem;
+}
+@media (min-width: 480px) {
+  .masonry {
+    column-count: 2;
+  }
+}
+@media (min-width: 900px) {
+  .masonry {
+    column-count: 3;
+  }
+}
+@media (min-width: 1200px) {
+  .masonry {
+    column-count: 4;
+  }
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin: 0 0 1rem;
+  display: block;
+  width: 100%;
+}
+
+.masonry-item figure {
+  margin: 0;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0e4db;
+}
+
+.masonry-item img,
+.masonry-item video,
+.masonry-item iframe {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.masonry-item figcaption {
+  padding: 0.6rem 0.8rem;
+  font-size: 0.95rem;
+  color: #6b6b6b;
+}
+
+.empty {
+  padding: 1.2rem;
+  text-align: center;
+  color: #6b6b6b;
+  border: 1px dashed #e8dcd3;
+  border-radius: 10px;
+  background: #fff;
+}
