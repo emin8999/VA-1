@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Order</title>
+    <title>About</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -239,5 +239,159 @@
       <p>© 2025 Dance Academy. Эстетика в движении.</p>
     </footer>
     <script src="script.js"></script>
+    <script>
+      (function () {
+        const KEY = "about_page_v2";
+
+        // helpers
+        const $ = (sel, r = document) => r.querySelector(sel);
+        const $$ = (sel, r = document) => Array.from(r.querySelectorAll(sel));
+
+        // read content
+        let c = {};
+        try {
+          c = JSON.parse(localStorage.getItem(KEY)) || {};
+        } catch (_) {
+          c = {};
+        }
+
+        // -------- HERO --------
+        if (c.hero) {
+          const h1 = $(".hero__text h1");
+          if (h1 && c.hero.title) h1.textContent = c.hero.title;
+
+          const p = $(".hero__text p");
+          if (p && c.hero.text) p.textContent = c.hero.text;
+
+          const tags = $(".hero__tags");
+          if (tags && Array.isArray(c.hero.tags)) {
+            tags.innerHTML = c.hero.tags
+              .map((t) => `<span>${t}</span>`)
+              .join("");
+          }
+
+          const img = $(".hero__media img");
+          if (img && c.hero.img) img.src = c.hero.img;
+        }
+
+        // -------- MISSION --------
+        if (c.mission) {
+          // заголовок миссии
+          const titleEl = $(".mission.container .mission__text h2");
+          if (titleEl && c.mission.title) titleEl.textContent = c.mission.title;
+
+          const textEl = $(".mission__text p");
+          if (textEl && c.mission.text) textEl.textContent = c.mission.text;
+
+          const list = $(".mission__text .bullets");
+          if (list && Array.isArray(c.mission.bullets)) {
+            list.innerHTML = c.mission.bullets
+              .map((x) => `<li>${x}</li>`)
+              .join("");
+          }
+
+          const img = $(".mission__img img");
+          if (img && c.mission.img) img.src = c.mission.img;
+        }
+
+        // -------- DISCIPLINES --------
+        if (Array.isArray(c.disciplines)) {
+          const grid = $(".disciplines.container .grid");
+          if (grid) {
+            grid.innerHTML = c.disciplines
+              .map(
+                (d) => `
+        <article class="card">
+          ${
+            d.img
+              ? `<img src="${d.img}" alt="${(d.title || "").replace(
+                  /"/g,
+                  "&quot;"
+                )}">`
+              : ""
+          }
+          <div class="card__body">
+            <h3>${d.title || ""}</h3>
+            <p>${d.desc || ""}</p>
+          </div>
+        </article>
+      `
+              )
+              .join("");
+          }
+        }
+
+        // -------- STATS --------
+        if (Array.isArray(c.stats)) {
+          const wrap = $(".stats .stats__grid");
+          if (wrap) {
+            wrap.innerHTML = c.stats
+              .map(
+                (s) => `
+        <div class="stat"><span>${s.value || ""}</span><small>${
+                  s.label || ""
+                }</small></div>
+      `
+              )
+              .join("");
+          }
+        }
+
+        // -------- FACILITIES --------
+        if (Array.isArray(c.facilities)) {
+          const list = $(".facilities.container .facilities__list");
+          if (list) {
+            list.innerHTML = c.facilities
+              .map(
+                (f) => `
+        <div class="facility">
+          <div class="icon">${f.icon || "✨"}</div>
+          <div>
+            <h4>${f.title || ""}</h4>
+            <p>${f.desc || ""}</p>
+          </div>
+        </div>
+      `
+              )
+              .join("");
+          }
+        }
+
+        // -------- TESTIMONIALS --------
+        if (Array.isArray(c.testimonials)) {
+          const grid = $(".testimonials .testimonials__grid");
+          if (grid) {
+            grid.innerHTML = c.testimonials
+              .map(
+                (t) => `
+        <article class="quote">
+          <p>${t.text || ""}</p>
+          <span>${t.author || ""}</span>
+        </article>
+      `
+              )
+              .join("");
+          }
+        }
+
+        // -------- CTA --------
+        if (c.cta) {
+          const box = $(".cta.container .cta__box");
+          if (box) {
+            const h2 = $(".cta__box h2");
+            if (h2 && c.cta.title) h2.textContent = c.cta.title;
+
+            const p = $(".cta__box p");
+            if (p && c.cta.text) p.textContent = c.cta.text;
+
+            const a = $(".cta__box a");
+            if (a) {
+              if (c.cta.btn) a.textContent = c.cta.btn;
+              if (c.cta.href) a.href = c.cta.href;
+            }
+          }
+        }
+      })();
+    </script>
   </body>
 </html>

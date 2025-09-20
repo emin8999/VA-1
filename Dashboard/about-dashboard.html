@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>About — Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --bg: #0b0b0b;
+        --fg: #f7f7f7;
+        --muted: #b8b8b8;
+        --acc: #e0b873;
+        --card: #151515;
+        --line: #222;
+      }
+      html,
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: Inter, system-ui, Arial;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      h1,
+      h2,
+      h3 {
+        color: var(--acc);
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 16px;
+        margin: 24px 0;
+      }
+      .row {
+        display: grid;
+        gap: 8px;
+        margin: 8px 0;
+      }
+      .row-inline {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 8px 0;
+        align-items: center;
+      }
+      input,
+      textarea {
+        background: #0f0f0f;
+        color: var(--fg);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px;
+      }
+      textarea {
+        min-height: 80px;
+      }
+      .btn {
+        background: var(--acc);
+        color: #111;
+        font-weight: 700;
+        border-radius: 12px;
+        padding: 10px 14px;
+        cursor: pointer;
+        border: none;
+      }
+      .btn-danger {
+        background: #b64c4c;
+        color: #fff;
+      }
+      .btn-ghost {
+        background: #1b1b1b;
+        color: var(--fg);
+        border: 1px solid var(--line);
+      }
+      .preview-img {
+        width: 100%;
+        max-width: 260px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        object-fit: cover;
+        margin-top: 8px;
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .list {
+        display: grid;
+        gap: 12px;
+        margin-top: 8px;
+      }
+      .badge {
+        background: #1d1d1d;
+        color: var(--muted);
+        padding: 2px 8px;
+        border-radius: 8px;
+        font-size: 12px;
+      }
+      .sep {
+        border: 0;
+        border-top: 1px dashed var(--line);
+        margin: 14px 0;
+      }
+      .preview-box {
+        padding: 12px;
+        background: #111;
+        border-radius: 10px;
+        margin-bottom: 12px;
+      }
+      .item-line {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>About — Dashboard</h1>
+      <p style="color: var(--muted)">
+        Редактируй контент для страницы <b>about.html</b>. Хедер и футер не
+        изменяются.
+      </p>
+
+      <!-- HERO -->
+      <div class="card">
+        <h2>Hero</h2>
+        <div class="preview-box" id="heroPreviewBox"></div>
+        <div class="grid2">
+          <div>
+            <label>Заголовок</label>
+            <input id="heroTitle" />
+            <label>Описание</label>
+            <textarea id="heroText"></textarea>
+            <label>Теги (через ;)</label>
+            <input id="heroTags" />
+          </div>
+          <div>
+            <label>Фото</label>
+            <div class="row-inline">
+              <input type="file" id="heroImg" accept="image/*" />
+              <button class="btn btn-ghost" id="heroRemoveBtn" type="button">
+                Удалить фото
+              </button>
+            </div>
+            <img
+              id="heroImgPreview"
+              class="preview-img"
+              style="display: none"
+            />
+          </div>
+        </div>
+        <div class="row-inline">
+          <button class="btn" onclick="saveHero()">Сохранить Hero</button>
+        </div>
+      </div>
+
+      <!-- MISSION -->
+      <div class="card">
+        <h2>Mission</h2>
+        <div class="preview-box" id="missionPreviewBox"></div>
+        <div class="grid2">
+          <div>
+            <label>Заголовок</label>
+            <input id="missionTitle" />
+            <label>Текст</label>
+            <textarea id="missionText"></textarea>
+            <label>Буллеты (каждый с новой строки)</label>
+            <textarea id="missionBullets"></textarea>
+          </div>
+          <div>
+            <label>Фото</label>
+            <div class="row-inline">
+              <input type="file" id="missionImg" accept="image/*" />
+              <button class="btn btn-ghost" id="missionRemoveBtn" type="button">
+                Удалить фото
+              </button>
+            </div>
+            <img
+              id="missionImgPreview"
+              class="preview-img"
+              style="display: none"
+            />
+          </div>
+        </div>
+        <div class="row-inline">
+          <button class="btn" onclick="saveMission()">Сохранить Mission</button>
+        </div>
+      </div>
+
+      <!-- DISCIPLINES -->
+      <div class="card">
+        <h2>Disciplines</h2>
+        <div class="preview-box" id="disciplinesPreviewBox"></div>
+        <div class="row-inline">
+          <input id="discTitle" placeholder="Название" />
+          <input
+            id="discDesc"
+            placeholder="Описание"
+            style="min-width: 240px"
+          />
+          <input type="file" id="discImg" accept="image/*" />
+          <button class="btn" onclick="addDiscipline()">Добавить</button>
+        </div>
+        <div class="row-inline">
+          <button class="btn" onclick="saveDisciplines()">
+            Сохранить Disciplines
+          </button>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="card">
+        <h2>Stats</h2>
+        <div class="preview-box" id="statsPreviewBox"></div>
+        <div class="row-inline">
+          <input id="statValue" placeholder="10+" />
+          <input
+            id="statLabel"
+            placeholder="лет опыта"
+            style="min-width: 200px"
+          />
+          <button class="btn" onclick="addStat()">Добавить</button>
+        </div>
+        <div class="row-inline">
+          <button class="btn" onclick="saveStats()">Сохранить Stats</button>
+        </div>
+      </div>
+
+      <!-- FACILITIES -->
+      <div class="card">
+        <h2>Facilities</h2>
+        <div class="preview-box" id="facilitiesPreviewBox"></div>
+        <div class="row-inline">
+          <input id="facIcon" placeholder="🏛️" style="width: 80px" />
+          <input id="facTitle" placeholder="Заголовок" />
+          <input id="facDesc" placeholder="Описание" style="min-width: 260px" />
+          <button class="btn" onclick="addFacility()">Добавить</button>
+        </div>
+        <div class="row-inline">
+          <button class="btn" onclick="saveFacilities()">
+            Сохранить Facilities
+          </button>
+        </div>
+      </div>
+
+      <!-- TESTIMONIALS -->
+      <div class="card">
+        <h2>Testimonials</h2>
+        <div class="preview-box" id="testimonialsPreviewBox"></div>
+        <div class="row-inline">
+          <input
+            id="testText"
+            placeholder="Текст отзыва"
+            style="min-width: 260px"
+          />
+          <input id="testAuthor" placeholder="Автор" />
+          <button class="btn" onclick="addTestimonial()">Добавить</button>
+        </div>
+        <div class="row-inline">
+          <button class="btn" onclick="saveTestimonials()">
+            Сохранить Testimonials
+          </button>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="card">
+        <h2>CTA</h2>
+        <div class="preview-box" id="ctaPreviewBox"></div>
+        <div class="row-inline">
+          <input id="ctaTitle" placeholder="Заголовок CTA" />
+          <input id="ctaText" placeholder="Описание" style="min-width: 260px" />
+          <input id="ctaBtn" placeholder="Кнопка" />
+          <input id="ctaHref" placeholder="./order.htm" />
+        </div>
+        <div class="row-inline">
+          <button class="btn" onclick="saveCTA()">Сохранить CTA</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const KEY = "about_page_v2";
+      let content = JSON.parse(localStorage.getItem(KEY) || "{}");
+
+      // ----- HELPERS -----
+      const save = () => localStorage.setItem(KEY, JSON.stringify(content));
+      const fileToDataURL = (f) =>
+        new Promise((res) => {
+          let r = new FileReader();
+          r.onload = (e) => res(e.target.result);
+          r.readAsDataURL(f);
+        });
+
+      function ensureDefaults() {
+        // Если контент пустой — заполняем дефолтами из разметки about.html
+        if (!content.hero)
+          content.hero = {
+            title: "О Танцевальной Академии",
+            text: "Мы — пространство для роста и вдохновения: современный танец, моделинг, классический балет и гимнастика. Сочетаем дисциплину и заботу, эстетику и свободу движения.",
+            tags: ["Contemporary", "Моделинг", "Балет", "Гимнастика"],
+            img: "assets/img/1.jpg",
+          };
+        if (!content.mission)
+          content.mission = {
+            title: "Наша миссия",
+            text: "Создавать бережную среду обучения, где каждая личность раскрывает потенциал. Мы верим в силу техники и воображения: от академической базы до авторских перформансов.",
+            bullets: [
+              "Индивидуальный подход и прогресс-шиты для учеников",
+              "Современные студии, зеркальные залы, мягкое покрытие",
+              "Публичные показы, конкурсы и портфолио-съёмки",
+            ],
+            img: "assets/img/2.jpg",
+          };
+        if (!Array.isArray(content.disciplines))
+          content.disciplines = [
+            {
+              title: "Современный танец",
+              desc: "Работа с телесной осознанностью, импровизация, партер-техника и композиция.",
+              img: "assets/img/3.jpg",
+            },
+            {
+              title: "Моделинг",
+              desc: "Постановка осанки и походки, позирование, съёмка луков, развитие пластики кадра.",
+              img: "assets/img/4.jpg",
+            },
+            {
+              title: "Балет",
+              desc: "Классическая школа: экзерсис у станка, adagios и allegros, дисциплина и стиль.",
+              img: "assets/img/5.jpg",
+            },
+            {
+              title: "Гимнастика",
+              desc: "Растяжка, акробатическая подготовка и контроль корпуса для сцены и спорта.",
+              img: "assets/img/6.jpg",
+            },
+          ];
+        if (!Array.isArray(content.stats))
+          content.stats = [
+            { value: "10+", label: "лет опыта" },
+            { value: "600+", label: "выпускников" },
+            { value: "4", label: "направления" },
+            { value: "10", label: "педагогов" },
+          ];
+        if (!Array.isArray(content.facilities))
+          content.facilities = [
+            {
+              icon: "🏛️",
+              title: "Профессиональные залы",
+              desc: "Зеркала, станки, климат-контроль и амортизирующее покрытие.",
+            },
+            {
+              icon: "🎥",
+              title: "Медиа-комната",
+              desc: "Съёмка перформансов, портфолио и видеоаналитика тренировок.",
+            },
+            {
+              icon: "🧘",
+              title: "Зона восстановления",
+              desc: "Растяжка, расслабление, работа с дыханием и телесным балансом.",
+            },
+            {
+              icon: "📅",
+              title: "Гибкое расписание",
+              desc: "Утренние и вечерние группы, индивидуальные занятия.",
+            },
+          ];
+        if (!Array.isArray(content.testimonials))
+          content.testimonials = [
+            {
+              text: "«Здесь я впервые почувствовала уверенность на сцене. Педагоги — невероятные!»",
+              author: "— Нармин, выпускница",
+            },
+            {
+              text: "«Баланс техники и творчества. Дочь полюбила и балет, и гимнастику.»",
+              author: "— Эльдар, родитель",
+            },
+          ];
+        if (!content.cta)
+          content.cta = {
+            title: "Готовы начать?",
+            text: "Выберите направление и приходите на пробное занятие — мы подберём уровень и группу.",
+            btn: "Записаться на пробный",
+            href: "./order.htm",
+          };
+      }
+      ensureDefaults();
+
+      // ================= HERO =================
+      function renderHero() {
+        const box = document.getElementById("heroPreviewBox");
+        box.innerHTML = `
+          <div class="item-line">
+            <div style="flex:1 1 320px">
+              <h3 style="margin:0">${content.hero?.title || ""}</h3>
+              <p style="margin:6px 0">${content.hero?.text || ""}</p>
+              <div>${(content.hero?.tags || [])
+                .map((t) => `<span class="badge">${t}</span>`)
+                .join(" ")}</div>
+            </div>
+            <div>
+              ${
+                content.hero?.img
+                  ? `<img src="${content.hero.img}" class="preview-img" alt="Hero">`
+                  : ""
+              }
+            </div>
+          </div>
+        `;
+        document.getElementById("heroTitle").value = content.hero?.title || "";
+        document.getElementById("heroText").value = content.hero?.text || "";
+        document.getElementById("heroTags").value = (
+          content.hero?.tags || []
+        ).join(";");
+        const prev = document.getElementById("heroImgPreview");
+        if (content.hero?.img) {
+          prev.src = content.hero.img;
+          prev.style.display = "block";
+        } else {
+          prev.src = "";
+          prev.style.display = "none";
+        }
+      }
+      async function saveHero() {
+        content.hero = {
+          title: document.getElementById("heroTitle").value,
+          text: document.getElementById("heroText").value,
+          tags: document
+            .getElementById("heroTags")
+            .value.split(";")
+            .map((s) => s.trim())
+            .filter(Boolean),
+          img: content.hero?.img || "",
+        };
+        const file = document.getElementById("heroImg").files[0];
+        if (file) content.hero.img = await fileToDataURL(file);
+        save();
+        renderHero();
+      }
+      function removeHeroImage() {
+        if (content.hero) {
+          content.hero.img = "";
+          save();
+          renderHero();
+        }
+        const inp = document.getElementById("heroImg");
+        if (inp) inp.value = "";
+      }
+      document
+        .getElementById("heroRemoveBtn")
+        .addEventListener("click", removeHeroImage);
+      document
+        .getElementById("heroImg")
+        .addEventListener("change", async (e) => {
+          const f = e.target.files?.[0];
+          if (!f) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            const prev = document.getElementById("heroImgPreview");
+            prev.src = reader.result;
+            prev.style.display = "block";
+          };
+          reader.readAsDataURL(f);
+        });
+
+      // ================= MISSION =================
+      function renderMission() {
+        const box = document.getElementById("missionPreviewBox");
+        box.innerHTML = `
+          <div class="item-line">
+            <div style="flex:1 1 320px">
+              <h3 style="margin:0">${content.mission?.title || ""}</h3>
+              <p style="margin:6px 0">${content.mission?.text || ""}</p>
+              <ul style="margin:6px 0 0 18px">${(content.mission?.bullets || [])
+                .map((b) => `<li>${b}</li>`)
+                .join("")}</ul>
+            </div>
+            <div>
+              ${
+                content.mission?.img
+                  ? `<img src="${content.mission.img}" class="preview-img" alt="Mission">`
+                  : ""
+              }
+            </div>
+          </div>
+        `;
+        document.getElementById("missionTitle").value =
+          content.mission?.title || "";
+        document.getElementById("missionText").value =
+          content.mission?.text || "";
+        document.getElementById("missionBullets").value = (
+          content.mission?.bullets || []
+        ).join("\n");
+        const prev = document.getElementById("missionImgPreview");
+        if (content.mission?.img) {
+          prev.src = content.mission.img;
+          prev.style.display = "block";
+        } else {
+          prev.src = "";
+          prev.style.display = "none";
+        }
+      }
+      async function saveMission() {
+        content.mission = {
+          title: document.getElementById("missionTitle").value,
+          text: document.getElementById("missionText").value,
+          bullets: document
+            .getElementById("missionBullets")
+            .value.split("\n")
+            .map((s) => s.trim())
+            .filter(Boolean),
+          img: content.mission?.img || "",
+        };
+        const f = document.getElementById("missionImg").files[0];
+        if (f) content.mission.img = await fileToDataURL(f);
+        save();
+        renderMission();
+      }
+      function removeMissionImage() {
+        if (content.mission) {
+          content.mission.img = "";
+          save();
+          renderMission();
+        }
+        const inp = document.getElementById("missionImg");
+        if (inp) inp.value = "";
+      }
+      document
+        .getElementById("missionRemoveBtn")
+        .addEventListener("click", removeMissionImage);
+      document
+        .getElementById("missionImg")
+        .addEventListener("change", async (e) => {
+          const f = e.target.files?.[0];
+          if (!f) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            const prev = document.getElementById("missionImgPreview");
+            prev.src = reader.result;
+            prev.style.display = "block";
+          };
+          reader.readAsDataURL(f);
+        });
+
+      // ================= DISCIPLINES =================
+      function renderDisciplines() {
+        const box = document.getElementById("disciplinesPreviewBox");
+        box.innerHTML = (content.disciplines || [])
+          .map(
+            (d, i) => `
+            <div class="item-line">
+              <div style="flex:1 1 320px">
+                <b>${i + 1}. ${d.title || ""}</b><br>
+                <span>${d.desc || ""}</span>
+                <div class="row-inline" style="margin-top:8px">
+                  <button class="btn btn-ghost" onclick="removeDisciplineImage(${i})">Удалить фото</button>
+                  <button class="btn btn-danger" onclick="removeDiscipline(${i})">Удалить карточку</button>
+                </div>
+              </div>
+              <div>
+                ${
+                  d.img
+                    ? `<img src="${d.img}" class="preview-img" alt="Disc ${
+                        i + 1
+                      }">`
+                    : ""
+                }
+              </div>
+            </div>
+          `
+          )
+          .join("");
+      }
+      async function addDiscipline() {
+        const t = document.getElementById("discTitle").value.trim();
+        const d = document.getElementById("discDesc").value.trim();
+        let img = "";
+        const f = document.getElementById("discImg").files[0];
+        if (f) img = await fileToDataURL(f);
+        if (!content.disciplines) content.disciplines = [];
+        content.disciplines.push({ title: t, desc: d, img });
+        // очистим форму добавления
+        document.getElementById("discTitle").value = "";
+        document.getElementById("discDesc").value = "";
+        document.getElementById("discImg").value = "";
+        save();
+        renderDisciplines();
+      }
+      function saveDisciplines() {
+        save();
+        renderDisciplines();
+      }
+      // удалить фото у конкретной карточки
+      window.removeDisciplineImage = function (idx) {
+        if (!Array.isArray(content.disciplines)) return;
+        if (!content.disciplines[idx]) return;
+        content.disciplines[idx].img = "";
+        save();
+        renderDisciplines();
+      };
+      // удалить карточку
+      window.removeDiscipline = function (idx) {
+        if (!Array.isArray(content.disciplines)) return;
+        content.disciplines.splice(idx, 1);
+        save();
+        renderDisciplines();
+      };
+
+      // ================= STATS =================
+      function renderStats() {
+        const box = document.getElementById("statsPreviewBox");
+        box.innerHTML = (content.stats || [])
+          .map(
+            (s, i) => `
+            <div class="item-line">
+              <div style="flex:1 1 auto"><b>${s.value || ""}</b> ${
+              s.label || ""
+            }</div>
+              <div class="row-inline">
+                <button class="btn btn-danger" onclick="removeStat(${i})">Удалить элемент</button>
+              </div>
+            </div>
+          `
+          )
+          .join("");
+      }
+      function addStat() {
+        if (!content.stats) content.stats = [];
+        content.stats.push({
+          value: document.getElementById("statValue").value,
+          label: document.getElementById("statLabel").value,
+        });
+        // очистка полей добавления
+        document.getElementById("statValue").value = "";
+        document.getElementById("statLabel").value = "";
+        save();
+        renderStats();
+      }
+      function saveStats() {
+        save();
+        renderStats();
+      }
+      window.removeStat = function (idx) {
+        if (!Array.isArray(content.stats)) return;
+        content.stats.splice(idx, 1);
+        save();
+        renderStats();
+      };
+
+      // ================= FACILITIES =================
+      function renderFacilities() {
+        const box = document.getElementById("facilitiesPreviewBox");
+        box.innerHTML = (content.facilities || [])
+          .map(
+            (f, i) => `
+            <div class="item-line">
+              <div style="flex:1 1 320px">${f.icon || "✨"} <b>${
+              f.title || ""
+            }</b> — ${f.desc || ""}</div>
+              <div class="row-inline">
+                <button class="btn btn-danger" onclick="removeFacility(${i})">Удалить элемент</button>
+              </div>
+            </div>
+          `
+          )
+          .join("");
+      }
+      function addFacility() {
+        if (!content.facilities) content.facilities = [];
+        content.facilities.push({
+          icon: document.getElementById("facIcon").value,
+          title: document.getElementById("facTitle").value,
+          desc: document.getElementById("facDesc").value,
+        });
+        // очистка формы
+        document.getElementById("facIcon").value = "";
+        document.getElementById("facTitle").value = "";
+        document.getElementById("facDesc").value = "";
+        save();
+        renderFacilities();
+      }
+      function saveFacilities() {
+        save();
+        renderFacilities();
+      }
+      window.removeFacility = function (idx) {
+        if (!Array.isArray(content.facilities)) return;
+        content.facilities.splice(idx, 1);
+        save();
+        renderFacilities();
+      };
+
+      // ================= TESTIMONIALS =================
+      function renderTestimonials() {
+        const box = document.getElementById("testimonialsPreviewBox");
+        box.innerHTML = (content.testimonials || [])
+          .map(
+            (t, i) => `
+            <div class="item-line">
+              <div style="flex:1 1 320px">
+                <div style="margin-bottom:6px">"${t.text || ""}"</div>
+                <i>${t.author || ""}</i>
+              </div>
+              <div class="row-inline">
+                <button class="btn btn-danger" onclick="removeTestimonial(${i})">Удалить элемент</button>
+              </div>
+            </div>
+          `
+          )
+          .join("");
+      }
+      function addTestimonial() {
+        if (!content.testimonials) content.testimonials = [];
+        content.testimonials.push({
+          text: document.getElementById("testText").value,
+          author: document.getElementById("testAuthor").value,
+        });
+        // очистка формы
+        document.getElementById("testText").value = "";
+        document.getElementById("testAuthor").value = "";
+        save();
+        renderTestimonials();
+      }
+      function saveTestimonials() {
+        save();
+        renderTestimonials();
+      }
+      window.removeTestimonial = function (idx) {
+        if (!Array.isArray(content.testimonials)) return;
+        content.testimonials.splice(idx, 1);
+        save();
+        renderTestimonials();
+      };
+
+      // ================= CTA =================
+      function renderCTA() {
+        const box = document.getElementById("ctaPreviewBox");
+        box.innerHTML = `
+          <div class="item-line" style="align-items:center">
+            <div style="flex:1 1 320px">
+              <h3 style="margin:0">${content.cta?.title || ""}</h3>
+              <p style="margin:6px 0">${content.cta?.text || ""}</p>
+              <div><span class="badge">${content.cta?.btn || ""}</span> → ${
+          content.cta?.href || ""
+        }</div>
+            </div>
+          </div>
+        `;
+        document.getElementById("ctaTitle").value = content.cta?.title || "";
+        document.getElementById("ctaText").value = content.cta?.text || "";
+        document.getElementById("ctaBtn").value = content.cta?.btn || "";
+        document.getElementById("ctaHref").value = content.cta?.href || "";
+      }
+      function saveCTA() {
+        content.cta = {
+          title: document.getElementById("ctaTitle").value,
+          text: document.getElementById("ctaText").value,
+          btn: document.getElementById("ctaBtn").value,
+          href: document.getElementById("ctaHref").value,
+        };
+        save();
+        renderCTA();
+      }
+
+      // ----- INIT -----
+      renderHero();
+      renderMission();
+      renderDisciplines();
+      renderStats();
+      renderFacilities();
+      renderTestimonials();
+      renderCTA();
+    </script>
+  </body>
+</html>

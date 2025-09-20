@@ -133,6 +133,8 @@ h3 {
   order: 2;
 }
 .hero__image {
+  background-color: #e2c6b1;
+  border-radius: 27px;
   order: 1;
 }
 .hero__image img {

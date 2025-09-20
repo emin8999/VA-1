@@ -100,6 +100,24 @@
         font-weight: 600;
         display: none;
       }
+      .thumb {
+        width: 140px;
+        height: 92px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 1px solid #e8dcd3;
+        display: none;
+      }
+      .file-row {
+        display: grid;
+        gap: 0.5rem;
+      }
+      @media (min-width: 700px) {
+        .file-row {
+          grid-template-columns: 1fr auto;
+          align-items: center;
+        }
+      }
     </style>
   </head>
   <body>
@@ -158,14 +176,10 @@
               required
             />
           </label>
-          <label
-            >Картинка (URL)
-            <input
-              type="url"
-              id="image"
-              placeholder="assets/img/5.jpg или https://…"
-              required
-            />
+          <label class="file-row"
+            >Картинка (файл)
+            <input type="file" id="imageFile" accept="image/*" required />
+            <img id="imagePreview" class="thumb" alt="превью" />
           </label>
         </div>
 
@@ -193,6 +207,9 @@
       (function () {
         const form = document.getElementById("classForm");
         const okMsg = document.getElementById("okMsg");
+        const imgFile = document.getElementById("imageFile");
+        const imgPreview = document.getElementById("imagePreview");
+
         const LEVEL_MAP = {
           beginner: "Начинающий",
           intermediate: "Средний",
@@ -211,12 +228,76 @@
         }
         function saveList(list) {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-          // мгновенное оповещение второй страницы
           if (bc) bc.postMessage({ type: "updated" });
         }
 
-        form.addEventListener("submit", (e) => {
+        // Сжатие изображения перед сохранением (уменьшаем до 1600px по большей стороне)
+        async function compressImage(
+          file,
+          { maxW = 1600, maxH = 1600, quality = 0.9 } = {}
+        ) {
+          // если это не изображение, просто вернём DataURL как есть
+          if (!file.type.startsWith("image/")) {
+            return await fileToDataURL(file);
+          }
+          const bmp = await createImageBitmap(file);
+          const { width: w, height: h } = bmp;
+          const ratio = Math.min(maxW / w, maxH / h, 1);
+          const cw = Math.round(w * ratio);
+          const ch = Math.round(h * ratio);
+
+          const canvas = document.createElement("canvas");
+          canvas.width = cw;
+          canvas.height = ch;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(bmp, 0, 0, cw, ch);
+
+          // сохраняем как JPEG (экономим место в localStorage)
+          return canvas.toDataURL("image/jpeg", quality);
+        }
+
+        function fileToDataURL(file) {
+          return new Promise((res, rej) => {
+            const r = new FileReader();
+            r.onload = (e) => res(e.target.result);
+            r.onerror = (e) => rej(e);
+            r.readAsDataURL(file);
+          });
+        }
+
+        // Превью выбранного изображения
+        imgFile.addEventListener("change", async (e) => {
+          const f = e.target.files?.[0];
+          if (!f) {
+            imgPreview.src = "";
+            imgPreview.style.display = "none";
+            return;
+          }
+          // Для быстрого превью можно показать несжатый DataURL
+          const quick = await fileToDataURL(f);
+          imgPreview.src = quick;
+          imgPreview.style.display = "inline-block";
+        });
+
+        form.addEventListener("submit", async (e) => {
           e.preventDefault();
+
+          // Проверки полей
+          if (!imgFile.files || !imgFile.files[0]) {
+            alert("Пожалуйста, выберите файл изображения.");
+            return;
+          }
+
+          // Сжимаем и кодируем картинку
+          let imageDataUrl = "";
+          try {
+            imageDataUrl = await compressImage(imgFile.files[0]);
+          } catch (err) {
+            console.error("Image processing error:", err);
+            alert("Не удалось обработать изображение. Попробуйте другой файл.");
+            return;
+          }
+
           const item = {
             id: Date.now(),
             title: form.title.value.trim(),
@@ -225,10 +306,11 @@
             levelName: LEVEL_MAP[form.level.value] || form.level.value,
             teacher: form.teacher.value.trim(),
             schedule: form.schedule.value.trim(),
-            image: form.image.value.trim(),
+            image: imageDataUrl, // <— сохраняем Data URL вместо URL
             description: form.description.value.trim(),
             tags: (form.tags.value || "").trim(),
           };
+
           if (
             !item.title ||
             !item.type ||
@@ -241,11 +323,24 @@
             alert("Заполни все обязательные поля");
             return;
           }
-          const list = loadList();
-          list.push(item); // добавляем в конец (сохранение порядка)
-          saveList(list);
 
+          const list = loadList();
+          list.push(item);
+          try {
+            saveList(list);
+          } catch (err) {
+            console.error("Save error:", err);
+            alert(
+              "Не удалось сохранить. Возможно, размер изображений слишком большой. Попробуйте выбрать фото меньшего размера."
+            );
+            return;
+          }
+
+          // Очистка формы
           form.reset();
+          imgPreview.src = "";
+          imgPreview.style.display = "none";
+
           okMsg.style.display = "inline";
           setTimeout(() => (okMsg.style.display = "none"), 2000);
         });
